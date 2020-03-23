@@ -1,5 +1,7 @@
 package application;
 
+import application.model.server.ServerProxy;
+
 public class Main {
 	
 	public void start() {
@@ -11,6 +13,9 @@ public class Main {
 		System.out.println("Main: inside main()");
         Main m = new Main();
         m.start();
+
+//        ServerProxy server = (ServerProxy)ApplicationFacade.getInstance().retrieveProxy("ServerProxy");
+//		new Thread(server).start();
 	}
 
 }

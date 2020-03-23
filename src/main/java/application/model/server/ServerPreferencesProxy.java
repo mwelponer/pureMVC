@@ -1,8 +1,9 @@
-package application.model;
+package application.model.server;
 
-import application.model.vo.ServerPreferencesVO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.Getter;
+import lombok.Setter;
 import org.puremvc.java.multicore.interfaces.IProxy;
 import org.puremvc.java.multicore.patterns.proxy.Proxy;
 
@@ -14,6 +15,7 @@ import java.io.IOException;
 public class ServerPreferencesProxy extends Proxy implements IProxy {
 
     public static final String NAME = "serverPreferencesProxy";
+    public static final int SERVER_PORT = 9000;
 
     // Preference file
     private File prefFile = new File(System.getProperty("user.home"), ".geobly_srv_prefs");
@@ -21,10 +23,12 @@ public class ServerPreferencesProxy extends Proxy implements IProxy {
     // Gson serializer
     private Gson gson;
 
+    @Setter @Getter
     private ServerPreferencesVO serverPrefs;
 
-    public ServerPreferencesProxy(String proxyName) {
+    public ServerPreferencesProxy() {
         super(NAME);
+        System.out.println("ServerPreferencesProxy:");
 
         // Initialize gson
         GsonBuilder builder = new GsonBuilder();
@@ -33,23 +37,33 @@ public class ServerPreferencesProxy extends Proxy implements IProxy {
         gson = builder.create();
 
         // Load preferences from file in user.home
+        System.out.println("ServerPreferencesProxy: load server preferences from file");
         if( prefFile.exists() ) {
             try(FileReader reader = new FileReader(prefFile)) {
                 serverPrefs = gson.fromJson(reader, ServerPreferencesVO.class);
+                System.out.println("..serverPort " + serverPrefs.getServerPort());
             } catch (IOException e) {
                 e.printStackTrace();
-                serverPrefs = new ServerPreferencesVO();
-                savePreferences();
+                createNewFile();
             }
         }
         else {
-            serverPrefs = new ServerPreferencesVO();
-            savePreferences();
+            createNewFile();
         }
     }
 
+    private void createNewFile(){
+        System.out.println("ServerPreferencesProxy: create new server preferences");
+        serverPrefs = new ServerPreferencesVO();
+        System.out.println("ServerPreferencesProxy: set server port " + SERVER_PORT);
+        // user ports 1024-49151
+        this.setPort(SERVER_PORT);
+        System.out.println("ServerPreferencesProxy: save server preferences");
+        savePreferences();
+    }
+
     public void setPort(int port){
-        serverPrefs.setServerport(port);
+        serverPrefs.setServerPort(port);
     }
 
     private void savePreferences(){

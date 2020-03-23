@@ -1,4 +1,4 @@
-package application.model.vo;
+package application.model.server;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,5 +6,5 @@ import lombok.Setter;
 public class ServerPreferencesVO {
 
     @Getter @Setter
-    private int serverport;
+    private int serverPort;
 }

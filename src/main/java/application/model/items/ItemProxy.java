@@ -1,12 +1,9 @@
-package application.model;
+package application.model.items;
 
 import java.util.ArrayList;
 
 import org.puremvc.java.multicore.interfaces.IProxy;
 import org.puremvc.java.multicore.patterns.proxy.Proxy;
-
-import application.ApplicationFacade;
-import application.model.vo.ItemVO;
 
 public class ItemProxy extends Proxy implements IProxy {
 

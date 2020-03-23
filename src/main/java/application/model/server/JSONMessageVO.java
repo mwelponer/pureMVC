@@ -1,4 +1,4 @@
-package application.model.vo;
+package application.model.server;
 
 import lombok.Getter;
 import lombok.Setter;

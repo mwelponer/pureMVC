@@ -10,7 +10,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import application.ApplicationFacade;
-import application.model.vo.ItemVO;
+import application.model.items.ItemVO;
 
 /**
  * @author Barbara Mezzabotta
@@ -39,7 +39,7 @@ public class MainWindow extends JFrame {
 	
 	public void insertText(ItemVO item) {
 		System.out.println("MainWindow: insert text in textarea");
-		textArea1.setText(textArea1.getText() + " " + item.getText());
+		textArea1.setText(textArea1.getText() + item.getText() + "\n");
 	}
 	
 	public void clearTextField() {

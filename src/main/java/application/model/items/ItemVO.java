@@ -1,4 +1,4 @@
-package application.model.vo;
+package application.model.items;
 
 
 public class ItemVO {

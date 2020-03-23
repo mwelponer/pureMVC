@@ -5,8 +5,8 @@ import org.puremvc.java.multicore.interfaces.INotification;
 import org.puremvc.java.multicore.patterns.command.SimpleCommand;
 
 import application.ApplicationFacade;
-import application.model.ItemProxy;
-import application.model.vo.ItemVO;
+import application.model.items.ItemProxy;
+import application.model.items.ItemVO;
 
 public class AddItemCommand extends SimpleCommand implements ICommand {
 
