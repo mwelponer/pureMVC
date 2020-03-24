@@ -28,15 +28,13 @@ public class ApplicationFacade extends Facade implements IFacade {
 	////////////////////////////////////
 	protected ApplicationFacade() {
 		super(NAME);
-		System.out.println("ApplicationFacade: build facade singleton");
+		System.out.println("ApplicationFacade()");
 	}
 
 	////////////////////////////////////
 	// SECOND
 	////////////////////////////////////
-	public static ApplicationFacade getInstance() {
-		return instance;
-	}
+	public static ApplicationFacade getInstance() { return instance;}
 
 	////////////////////////////////////
 	// FIRST
@@ -45,7 +43,7 @@ public class ApplicationFacade extends Facade implements IFacade {
 	protected void initializeController() {
 		// TODO Auto-generated method stub
 		super.initializeController();
-		System.out.println("ApplicationFacade: register commands");
+		System.out.println("  ApplicationFacade: initializeController()");
 		registerCommand(STARTUP, new StartupCommand());
 		registerCommand(ADD_ITEM, new AddItemCommand());
 		registerCommand(START_SERVER, new StartServerCommand());
@@ -53,7 +51,7 @@ public class ApplicationFacade extends Facade implements IFacade {
 	
 	public void startup() {
 		// TODO Auto-generated method stub
-		System.out.println("ApplicationFacade: call startup command");
+		System.out.println("  ApplicationFacade: startup()");
 		sendNotification(STARTUP);
 	}
 }

@@ -12,13 +12,15 @@ public class MessageProcessor implements Runnable {
     protected String serverText;
 
     public MessageProcessor(Socket clientSocket, String serverText) {
-        //System.out.println("MessageProcessor()");
+        System.out.println("MessageProcessor()");
         this.clientSocket = clientSocket;
         this.serverText = serverText;
     }
 
     @Override
     public void run() {
+        System.out.println("  MessageProcessor: run()");
+
         try {
 //            InputStream input  = clientSocket.getInputStream();
 //            OutputStream output = clientSocket.getOutputStream();
@@ -32,7 +34,7 @@ public class MessageProcessor implements Runnable {
 //
 //            input.close();
 //
-            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
+            //SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
             Date resultdate = new Date(time);
 
             // input stream
@@ -41,7 +43,7 @@ public class MessageProcessor implements Runnable {
 
             String inputLine;
             while ((inputLine = inBufferReader.readLine()) != null && !inputLine.equals("")) {
-                stringBuffer.append(inputLine);
+                stringBuffer.append("  " + inputLine);
                 stringBuffer.append("\r\n");
             }
 
@@ -75,7 +77,7 @@ public class MessageProcessor implements Runnable {
             }
 
 
-            System.out.println("Message processed: " + resultdate);
+            System.out.println("  ..message processed: " + resultdate);
         } catch (IOException e) {
             //report exception somewhere.
             e.printStackTrace();

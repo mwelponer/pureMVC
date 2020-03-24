@@ -20,6 +20,7 @@ public class MainWindow extends JFrame {
 	private MainWindowMediator mediator;
 	
 	public MainWindow(MainWindowMediator m) {
+		System.out.println("MainWindow()");
 		initComponents();
 		textField1.requestFocus();
 		
@@ -27,7 +28,7 @@ public class MainWindow extends JFrame {
 	}
 
 	private void addButtonActionPerformed(ActionEvent e) {
-		System.out.println("addButton pressed");
+		System.out.println("  MainWindow: addButtonActionPerformed()");
 		String s = textField1.getText();
 		if (!s.isEmpty()) {
 			ItemVO item = new ItemVO(textField1.getText());
@@ -38,15 +39,17 @@ public class MainWindow extends JFrame {
 	}
 	
 	public void insertText(ItemVO item) {
-		System.out.println("MainWindow: insert text in textarea");
+		System.out.println("  MainWindow: insertText()");
 		textArea1.setText(textArea1.getText() + item.getText() + "\n");
 	}
 	
 	public void clearTextField() {
+		System.out.println("  MainWindow: clearTextField()");
 		textField1.setText("");
 	}
 	
 	public void clearTextArea() {
+		System.out.println("  MainWindow: clearTextArea()");
 		textArea1.setText("");
 	}
 
@@ -55,10 +58,12 @@ public class MainWindow extends JFrame {
 	}
 
 	private void menuItem3ActionPerformed(ActionEvent e) {
-		System.exit(0);
+		mediator.sendNotification(ApplicationFacade.SHUTDOWN);
+		//System.exit(0);
 	}
 
 	private void initComponents() {
+		System.out.println("  MainWindow: initComponents()");
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
 		// Generated using JFormDesigner non-commercial license
 		menuBar1 = new JMenuBar();

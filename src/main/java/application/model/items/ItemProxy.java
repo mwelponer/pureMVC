@@ -12,7 +12,7 @@ public class ItemProxy extends Proxy implements IProxy {
 	public ItemProxy() {
 		super(NAME, new ArrayList<ItemVO>());
 		//addItem(new ItemVO("test"));
-		//System.out.println("ItemProxy:");
+		System.out.println("ItemProxy()");
 	}
 	
 	public final ArrayList<ItemVO> items() {
@@ -20,12 +20,12 @@ public class ItemProxy extends Proxy implements IProxy {
 	}
 	
 	public final void addItem(final ItemVO itemToAdd) {
-		System.out.println("ItemProxy: add an item");
+		System.out.println("  ItemProxy: addItem()");
 		items().add(itemToAdd);
 	}
 	
 	public final void deleteItem(final ItemVO itemToDelete) {
-		System.out.println("ItemProxy: delete an item");
+		System.out.println("  ItemProxy: deleteItem()");
 		for (int i = 0; i < items().size(); i++) {
 			if (items().get(i).getText().equals(itemToDelete.getText())) {
 				items().remove(i);

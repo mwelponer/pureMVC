@@ -28,7 +28,7 @@ public class ServerPreferencesProxy extends Proxy implements IProxy {
 
     public ServerPreferencesProxy() {
         super(NAME);
-        System.out.println("ServerPreferencesProxy:");
+        System.out.println("ServerPreferencesProxy()");
 
         // Initialize gson
         GsonBuilder builder = new GsonBuilder();
@@ -37,11 +37,11 @@ public class ServerPreferencesProxy extends Proxy implements IProxy {
         gson = builder.create();
 
         // Load preferences from file in user.home
-        System.out.println("ServerPreferencesProxy: load server preferences from file");
+        System.out.println("  ..load server preferences from file");
         if( prefFile.exists() ) {
             try(FileReader reader = new FileReader(prefFile)) {
                 serverPrefs = gson.fromJson(reader, ServerPreferencesVO.class);
-                System.out.println("..serverPort " + serverPrefs.getServerPort());
+                System.out.println("  ..serverPort " + serverPrefs.getServerPort());
             } catch (IOException e) {
                 e.printStackTrace();
                 createNewFile();
@@ -53,12 +53,12 @@ public class ServerPreferencesProxy extends Proxy implements IProxy {
     }
 
     private void createNewFile(){
-        System.out.println("ServerPreferencesProxy: create new server preferences");
+        System.out.println("  ServerPreferencesProxy: createNewFile()");
         serverPrefs = new ServerPreferencesVO();
-        System.out.println("ServerPreferencesProxy: set server port " + SERVER_PORT);
+//        System.out.println("ServerPreferencesProxy: set server port " + SERVER_PORT);
         // user ports 1024-49151
         this.setPort(SERVER_PORT);
-        System.out.println("ServerPreferencesProxy: save server preferences");
+//        System.out.println("ServerPreferencesProxy: save server preferences");
         savePreferences();
     }
 
@@ -67,6 +67,7 @@ public class ServerPreferencesProxy extends Proxy implements IProxy {
     }
 
     private void savePreferences(){
+        System.out.println("  ServerPreferencesProxy: savePreferences()");
         try(FileWriter writer = new FileWriter(prefFile)) {
             gson.toJson(serverPrefs, writer);
         } catch (IOException e) {
