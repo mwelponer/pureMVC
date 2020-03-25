@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Date;
 
 public class ServerProxy extends Proxy implements IProxy, Runnable {
 
@@ -70,7 +71,9 @@ public class ServerProxy extends Proxy implements IProxy, Runnable {
                 }
                 throw new RuntimeException("  ..error accepting client connection", e);
             }
-            System.out.println("  ..message received");
+            long time = System.currentTimeMillis();
+            Date resultdate = new Date(time);
+            System.out.println("  ..message received: " + resultdate.toString());
 
             new Thread(new MessageProcessor(clientSocket, "Multithreaded Server")
             ).start();
@@ -111,8 +114,7 @@ public class ServerProxy extends Proxy implements IProxy, Runnable {
             connection.setDoOutput(true);
 
             //Send request
-            DataOutputStream wr = new DataOutputStream (
-                    connection.getOutputStream ());
+            DataOutputStream wr = new DataOutputStream (connection.getOutputStream ());
             wr.writeBytes (payload);
             wr.flush ();
             wr.close ();

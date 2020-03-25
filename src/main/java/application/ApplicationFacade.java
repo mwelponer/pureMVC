@@ -22,9 +22,9 @@ public class ApplicationFacade extends Facade implements IFacade {
 	public static final String SEND_MESSAGE = "SendMessage";
 	public static final String MESSAGE_SENT = "MessageSent";
 	public static final String RECEIVE_MESSAGE = "ReceiveMessage";
-	public static final String MESSAGE_ADDED = "MessageAdded";
 	public static final String UPDATE_CONSOLE = "UpdateConsole";
 	public static final String LOAD_MESSAGES = "LoadMessages";
+	public static final String CLEAR_MESSAGES = "ClearMessages";
 
 	public static final String SHOW_MAIN_WINDOW = "show_main_window";
 	public static final String SHUTDOWN = "shutdown";
@@ -56,6 +56,7 @@ public class ApplicationFacade extends Facade implements IFacade {
 		registerCommand(START_SERVER, new StartServerCommand());
 		registerCommand(SEND_MESSAGE, new SendMessageCommand());
 		registerCommand(RECEIVE_MESSAGE, new ReceiveMessageCommand());
+		registerCommand(CLEAR_MESSAGES, new ClearMessagesCommand());
 	}
 	
 	public void startup() {

@@ -12,7 +12,7 @@ public class SendMessageCommand extends SimpleCommand implements ICommand {
 
     @Override
     public final void execute(INotification notification) {
-        System.out.println("  SendJSONCommand: execute()");
+        System.out.println("  SendMessageCommand: execute()");
 
         MessageVO message = (MessageVO) notification.getBody();
         ServerProxy serverProxy = (ServerProxy) getFacade().retrieveProxy(ServerProxy.NAME);

@@ -43,6 +43,7 @@ public class MainWindow extends JFrame {
     public void writeToOutputConsole(String output){
         System.out.println("  MainWindow: writeToOutputConsole()");
 	    response_textArea.append(output);
+        response_textArea.append("\r\n");
     }
 
     public void clearOutputConsole(){
@@ -72,6 +73,26 @@ public class MainWindow extends JFrame {
         mediator.sendNotification(ApplicationFacade.SEND_MESSAGE, message);
 	}
 
+    private void menuItem1ActionPerformed(ActionEvent e) {
+        // TODO add your code here
+    }
+
+    private void addButtonActionPerformed(ActionEvent e) {
+        // TODO add your code here
+    }
+
+    private void sendButtonActionPerformed(ActionEvent e) {
+        // TODO add your code here
+    }
+
+    private void clear_ButtonActionPerformed(ActionEvent e) {
+        mediator.sendNotification(ApplicationFacade.CLEAR_MESSAGES);
+    }
+
+    private void clear_Button2ActionPerformed(ActionEvent e) {
+        // TODO add your code here
+    }
+
 	private void initComponents() {
 		System.out.println("  MainWindow: initComponents()");
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -92,6 +113,7 @@ public class MainWindow extends JFrame {
         panel1 = new JPanel();
         method_comboBox = new JComboBox<>();
         url_textField = new JTextField();
+        clear_Button = new JButton();
         send_Button = new JButton();
 
         //======== this ========
@@ -107,6 +129,7 @@ public class MainWindow extends JFrame {
 
                 //---- menuItem1 ----
                 menuItem1.setText("Add");
+                menuItem1.addActionListener(e -> menuItem1ActionPerformed(e));
                 menu1.add(menuItem1);
 
                 //---- menuItem2 ----
@@ -140,12 +163,18 @@ public class MainWindow extends JFrame {
 
                     //======== scrollPane2 ========
                     {
+
+                        //---- input_textArea ----
+                        input_textArea.setMargin(new Insets(0, 3, 0, 0));
                         scrollPane2.setViewportView(input_textArea);
                     }
                     splitPane1.setTopComponent(scrollPane2);
 
                     //======== scrollPane1 ========
                     {
+
+                        //---- response_textArea ----
+                        response_textArea.setMargin(new Insets(0, 3, 0, 0));
                         scrollPane1.setViewportView(response_textArea);
                     }
                     splitPane1.setBottomComponent(scrollPane1);
@@ -168,19 +197,33 @@ public class MainWindow extends JFrame {
                         "GET",
                         "POST"
                     }));
+                    method_comboBox.setPreferredSize(new Dimension(93, 33));
+                    method_comboBox.setMinimumSize(new Dimension(99, 33));
+                    method_comboBox.setMaximumSize(new Dimension(32767, 33));
                     panel1.add(method_comboBox);
 
                     //---- url_textField ----
-                    url_textField.setPreferredSize(new Dimension(200, 30));
-                    url_textField.setMargin(new Insets(2, 60, 2, 6));
-                    url_textField.setText("http://");
+                    url_textField.setPreferredSize(new Dimension(30, 30));
+                    url_textField.setMargin(new Insets(0, 0, 0, 0));
+                    url_textField.setText(" http://");
+                    url_textField.setMaximumSize(new Dimension(2147483647, 30));
+                    url_textField.setFocusCycleRoot(true);
                     panel1.add(url_textField);
+
+                    //---- clear_Button ----
+                    clear_Button.setText("Clear");
+                    clear_Button.setMinimumSize(new Dimension(78, 33));
+                    clear_Button.setMaximumSize(new Dimension(78, 33));
+                    clear_Button.setPreferredSize(new Dimension(78, 33));
+                    clear_Button.addActionListener(e -> clear_ButtonActionPerformed(e));
+                    panel1.add(clear_Button);
 
                     //---- send_Button ----
                     send_Button.setText("Send");
-                    send_Button.addActionListener(e -> {
-			send_ButtonActionPerformed(e);
-		});
+                    send_Button.setMinimumSize(new Dimension(78, 33));
+                    send_Button.setMaximumSize(new Dimension(78, 33));
+                    send_Button.setPreferredSize(new Dimension(78, 33));
+                    send_Button.addActionListener(e -> send_ButtonActionPerformed(e));
                     panel1.add(send_Button);
                 }
                 buttonBar.add(panel1);
@@ -211,6 +254,7 @@ public class MainWindow extends JFrame {
     private JPanel panel1;
     private JComboBox<String> method_comboBox;
     private JTextField url_textField;
+    private JButton clear_Button;
     private JButton send_Button;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 }

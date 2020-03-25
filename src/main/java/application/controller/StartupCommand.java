@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.model.messages.MessageProxy;
 import application.model.server.ServerPreferencesProxy;
 import org.puremvc.java.multicore.interfaces.ICommand;
 import org.puremvc.java.multicore.interfaces.INotification;
@@ -19,6 +20,7 @@ public class StartupCommand extends SimpleCommand implements ICommand {
 		// models (proxies)
 //		System.out.println("StartupCommand: register ItemProxy and ServerPreferencesProxy");
 		getFacade().registerProxy(new ItemProxy());
+		getFacade().registerProxy(new MessageProxy());
 		getFacade().registerProxy(new ServerPreferencesProxy());
 
 		///////////////////////

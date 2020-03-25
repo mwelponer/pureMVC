@@ -1,6 +1,8 @@
 package application.model.server;
 
 import application.ApplicationFacade;
+import application.model.items.ItemVO;
+import application.model.messages.MessageProxy;
 import application.model.messages.MessageVO;
 import org.json.JSONObject;
 
@@ -26,19 +28,7 @@ public class MessageProcessor implements Runnable {
         System.out.println("  MessageProcessor: run()");
 
         try {
-//            InputStream input  = clientSocket.getInputStream();
-//            OutputStream output = clientSocket.getOutputStream();
             long time = System.currentTimeMillis();
-//
-//            output.write(("HTTP/1.1 200 OK\n\nMessageProcessor: " +
-//                    this.serverText + " - " +
-//                    time +
-//                    "").getBytes());
-//            output.close();
-//
-//            input.close();
-//
-            //SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
             Date resultdate = new Date(time);
 
             // input stream
@@ -53,10 +43,12 @@ public class MessageProcessor implements Runnable {
                 stringBuffer.append("\r\n");
             }
 
+            if(stringBuffer.toString().isEmpty())
+                return;
+
             //TODO: send update output console to facade
-            ApplicationFacade.getInstance().sendNotification(
-                    ApplicationFacade.UPDATE_CONSOLE, stringBuffer.toString());
-            //System.out.println(stringBuffer.toString());
+            //ApplicationFacade.getInstance().sendNotification(ApplicationFacade.UPDATE_CONSOLE, stringBuffer.toString());
+            System.out.println("  --- HEADER ---\n" + stringBuffer.toString());
 
 
             /////////////////////////////////////////////
@@ -94,15 +86,17 @@ public class MessageProcessor implements Runnable {
             while(inBufferReader.ready()){
                 payload.append((char) inBufferReader.read());
             }
-            System.out.println("Payload data is: " + payload.toString());
+            //System.out.println("Payload data is: " + payload.toString());
 
             // JSON
             JSONObject jsonObject = new JSONObject(payload.toString());
+
             //TODO: use receiveMessageCommand
             MessageVO message = new MessageVO();
             message.setTimestamp(time);
             message.setJsonObject(jsonObject);
             ApplicationFacade.getInstance().sendNotification(ApplicationFacade.RECEIVE_MESSAGE, message);
+            //ApplicationFacade.getInstance().sendNotification(ApplicationFacade.ADD_ITEM, new ItemVO("ciccio"));
             //System.out.println(jsonObject);
 
 //            if(!jsonObject.has("id"))

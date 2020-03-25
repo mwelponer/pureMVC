@@ -1,6 +1,8 @@
 package application.view;
 
 import java.awt.Dimension;
+import java.util.Date;
+import java.util.List;
 
 import application.model.messages.MessageProxy;
 import application.model.messages.MessageVO;
@@ -55,6 +57,8 @@ public class MainWindowMediator extends Mediator implements IMediator {
 			ApplicationFacade.SEND_MESSAGE,
             ApplicationFacade.MESSAGE_SENT,
 			ApplicationFacade.UPDATE_CONSOLE,
+			ApplicationFacade.MESSAGE_ADDED,
+			ApplicationFacade.LOAD_MESSAGES,
             ApplicationFacade.SHUTDOWN
 		};
 		
@@ -69,7 +73,7 @@ public class MainWindowMediator extends Mediator implements IMediator {
 		// TODO Auto-generated method stub
 		switch(notification.getName()) {
         	case ApplicationFacade.SHOW_MAIN_WINDOW:
-				mainWindow.setPreferredSize(new Dimension(400, 300));
+				mainWindow.setPreferredSize(new Dimension(650, 500));
 				mainWindow.pack();
 				mainWindow.setVisible(true);
         		break;
@@ -82,12 +86,11 @@ public class MainWindowMediator extends Mediator implements IMediator {
 				break;
 
 			case ApplicationFacade.LOAD_ITEMS:
-//				mainWindow.clearTextField();
-//				mainWindow.clearTextArea();
-//
-//				for (ItemVO itemVO : itemProxy.items()) {
-//					mainWindow.insertText(itemVO);
-//				}
+				mainWindow.clearOutputConsole();
+
+				for (ItemVO itemVO : itemProxy.items()) {
+					mainWindow.writeToOutputConsole(itemVO.getText());
+				}
 				break;
 
 			case ApplicationFacade.MESSAGE_SENT:
@@ -97,11 +100,29 @@ public class MainWindowMediator extends Mediator implements IMediator {
 				mainWindow.writeToOutputConsole((String)notification.getBody());
 				break;
 
+			case ApplicationFacade.MESSAGE_ADDED:
+				sendNotification(ApplicationFacade.LOAD_MESSAGES);
+				break;
+
 			case ApplicationFacade.LOAD_MESSAGES:
 				mainWindow.clearOutputConsole();
+				List messages = messageProxy.messages();
 
-				for(MessageVO messageVO : messageProxy.messages())
-					mainWindow.writeToOutputConsole(messageVO.getJsonObject().toString());
+				// use only last 100 messages
+				List<MessageVO> tail = messages.subList(Math.max(messages.size() - 100, 0), messages.size());
+				for(MessageVO messageVO : tail){
+					Date resultdate = new Date(messageVO.getTimestamp());
+					//mainWindow.writeToOutputConsole(resultdate.toString());
+					String coords = resultdate.toString() + " - received new coordinates: (" +
+							messageVO.getJsonObject().getFloat("coordX") + ", " +
+							messageVO.getJsonObject().getFloat("coordY") + ")";
+					mainWindow.writeToOutputConsole(coords);
+				}
+
+				break;
+
+			case ApplicationFacade.MESSAGES_CLEARED:
+				sendNotification(ApplicationFacade.LOAD_MESSAGES);
 				break;
 
 			case ApplicationFacade.SHUTDOWN:
