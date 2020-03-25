@@ -2,6 +2,8 @@ package application.view;
 
 import java.awt.Dimension;
 
+import application.model.messages.MessageProxy;
+import application.model.messages.MessageVO;
 import org.puremvc.java.multicore.interfaces.IMediator;
 import org.puremvc.java.multicore.interfaces.INotification;
 import org.puremvc.java.multicore.patterns.mediator.Mediator;
@@ -16,6 +18,7 @@ public class MainWindowMediator extends Mediator implements IMediator {
 	private static final String NAME = "MainWindowMediator";
 	private static MainWindow mainWindow = null;
 	private ItemProxy itemProxy = null;
+	private MessageProxy messageProxy = null;
 	
 	public MainWindowMediator() {
 		super(NAME, null);
@@ -33,6 +36,7 @@ public class MainWindowMediator extends Mediator implements IMediator {
 		// TODO Auto-generated method stub
 		System.out.println("  MainWindowMediator: onRegister()");
 		itemProxy = (ItemProxy) getFacade().retrieveProxy(ItemProxy.NAME);
+		messageProxy = (MessageProxy) getFacade().retrieveProxy(MessageProxy.NAME);
 		super.onRegister();
 	}
 
@@ -44,12 +48,13 @@ public class MainWindowMediator extends Mediator implements IMediator {
 		System.out.println("  MainWindowMediator: listNotificationInterests()");
 		// TODO Auto-generated method stub
 		return new String[] {
-			ApplicationFacade.LOAD_ITEMS,
 			ApplicationFacade.SHOW_MAIN_WINDOW,
-               
             ApplicationFacade.ADD_ITEM,
             ApplicationFacade.ITEM_ADDED,
-                
+			ApplicationFacade.LOAD_ITEMS,
+			ApplicationFacade.SEND_MESSAGE,
+            ApplicationFacade.MESSAGE_SENT,
+			ApplicationFacade.UPDATE_CONSOLE,
             ApplicationFacade.SHUTDOWN
 		};
 		
@@ -63,29 +68,40 @@ public class MainWindowMediator extends Mediator implements IMediator {
 
 		// TODO Auto-generated method stub
 		switch(notification.getName()) {
-			case ApplicationFacade.LOAD_ITEMS:
-//				System.out.println("MainWindowMediator: LOAD_ITEMS, retrieve items from proxy and update view");
-
-				mainWindow.clearTextField();
-				mainWindow.clearTextArea();
-				
-				for (ItemVO itemVO : itemProxy.items()) {
-					mainWindow.insertText(itemVO);
-				}
-		
-				break;
-				
         	case ApplicationFacade.SHOW_MAIN_WINDOW:
-//        		System.out.println("MainWindowMediator: SHOW_MAIN_WINDOW, set and visible true");
 				mainWindow.setPreferredSize(new Dimension(400, 300));
 				mainWindow.pack();
 				mainWindow.setVisible(true);
-        		
         		break;
-        		
+
+			case ApplicationFacade.SERVER_STARTED:
+				break;
+
         	case ApplicationFacade.ITEM_ADDED:
         		sendNotification(ApplicationFacade.LOAD_ITEMS);
-        		
+				break;
+
+			case ApplicationFacade.LOAD_ITEMS:
+//				mainWindow.clearTextField();
+//				mainWindow.clearTextArea();
+//
+//				for (ItemVO itemVO : itemProxy.items()) {
+//					mainWindow.insertText(itemVO);
+//				}
+				break;
+
+			case ApplicationFacade.MESSAGE_SENT:
+				break;
+
+			case ApplicationFacade.UPDATE_CONSOLE:
+				mainWindow.writeToOutputConsole((String)notification.getBody());
+				break;
+
+			case ApplicationFacade.LOAD_MESSAGES:
+				mainWindow.clearOutputConsole();
+
+				for(MessageVO messageVO : messageProxy.messages())
+					mainWindow.writeToOutputConsole(messageVO.getJsonObject().toString());
 				break;
 
 			case ApplicationFacade.SHUTDOWN:

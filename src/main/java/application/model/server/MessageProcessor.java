@@ -1,5 +1,7 @@
 package application.model.server;
 
+import application.ApplicationFacade;
+import application.model.messages.MessageVO;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -51,7 +53,11 @@ public class MessageProcessor implements Runnable {
                 stringBuffer.append("\r\n");
             }
 
-            System.out.println(stringBuffer.toString());
+            //TODO: send update output console to facade
+            ApplicationFacade.getInstance().sendNotification(
+                    ApplicationFacade.UPDATE_CONSOLE, stringBuffer.toString());
+            //System.out.println(stringBuffer.toString());
+
 
             /////////////////////////////////////////////
             // WRITE BACK TO CLIENT
@@ -92,12 +98,17 @@ public class MessageProcessor implements Runnable {
 
             // JSON
             JSONObject jsonObject = new JSONObject(payload.toString());
-            System.out.println(jsonObject);
+            //TODO: use receiveMessageCommand
+            MessageVO message = new MessageVO();
+            message.setTimestamp(time);
+            message.setJsonObject(jsonObject);
+            ApplicationFacade.getInstance().sendNotification(ApplicationFacade.RECEIVE_MESSAGE, message);
+            //System.out.println(jsonObject);
 
-            if(!jsonObject.has("id"))
-                System.out.println("  ..not found");
-            else
-                System.out.println("  id: " + jsonObject.getInt("id"));
+//            if(!jsonObject.has("id"))
+//                System.out.println("  ..not found");
+//            else
+//                System.out.println("  id: " + jsonObject.getInt("id"));
 
 
             System.out.println("  ..message processed: " + resultdate);

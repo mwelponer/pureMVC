@@ -1,11 +1,15 @@
 package application.model.server;
 
+import application.ApplicationFacade;
+import application.model.messages.MessageVO;
 import org.puremvc.java.multicore.interfaces.IProxy;
 import org.puremvc.java.multicore.patterns.proxy.Proxy;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
 
 public class ServerProxy extends Proxy implements IProxy, Runnable {
 
@@ -73,6 +77,74 @@ public class ServerProxy extends Proxy implements IProxy, Runnable {
         }
 
         System.out.println("  ..server Stopped.");
+    }
+
+    public final String sendRequest(MessageVO message) {
+        RequestMethod method = message.getMethod();
+        String targetURL = message.getTargetURL();
+        String payload = message.getJsonObject().toString();
+
+        // targetURL -> "http://localhost:9000"
+        // payload -> "{\"timestamp\":\"1234\", \"coordX\":\"1.0\", \"coordY\":\"1.0\"}"
+
+        URL url;
+        HttpURLConnection connection = null;
+        String charset = "UTF-8";
+        try {
+            //Create connection
+            url = new URL(targetURL);
+            connection = (HttpURLConnection)url.openConnection();
+
+            connection.setRequestMethod(method.name());
+            //connection.setDoOutput(true); // Triggers POST.
+
+            //connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setRequestProperty("Accept-Charset", charset);
+            connection.setRequestProperty("Content-Type", "application/json;charset=" + charset);
+
+            connection.setRequestProperty("Content-Length", "" +
+                    Integer.toString(payload.getBytes().length));
+            connection.setRequestProperty("Content-Language", "en-US");
+
+            connection.setUseCaches (false);
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+
+            //Send request
+            DataOutputStream wr = new DataOutputStream (
+                    connection.getOutputStream ());
+            wr.writeBytes (payload);
+            wr.flush ();
+            wr.close ();
+
+            //Get Response
+            InputStream is = connection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while((line = rd.readLine()) != null) {
+                response.append(line);
+                response.append('\r');
+            }
+
+            //TODO: send response to the outputconsole
+            ApplicationFacade.getInstance().sendNotification(
+                    ApplicationFacade.UPDATE_CONSOLE, response.toString());
+
+            rd.close();
+            return response.toString();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            return null;
+
+        } finally {
+
+            if(connection != null) {
+                connection.disconnect();
+            }
+        }
     }
 
 //    public static void main(String[]args){

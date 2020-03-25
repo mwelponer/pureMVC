@@ -15,12 +15,13 @@ public class StartupCommand extends SimpleCommand implements ICommand {
 	public final void execute(INotification notification) {
 		System.out.println("  StartupCommand: execute");
 
-
+		///////////////////////
 		// models (proxies)
 //		System.out.println("StartupCommand: register ItemProxy and ServerPreferencesProxy");
 		getFacade().registerProxy(new ItemProxy());
 		getFacade().registerProxy(new ServerPreferencesProxy());
 
+		///////////////////////
 		// gui (mediators)
 		getFacade().registerMediator(new MainWindowMediator());
 //		System.out.println("StartupCommand: send notification LOAD_ITEMS");
@@ -28,9 +29,14 @@ public class StartupCommand extends SimpleCommand implements ICommand {
 //		System.out.println("StartupCommand: send notification SHOW_MAIN_WINDOW");
         getFacade().sendNotification(ApplicationFacade.SHOW_MAIN_WINDOW);
 
+		///////////////////////
         // server
+		// load the config for the server (port, localhost) from a config file
+//        System.out.println("StartServerCommand: load server preferences");
+		ServerPreferencesProxy serverPreferencesProxy =
+				(ServerPreferencesProxy) getFacade().retrieveProxy(ServerPreferencesProxy.NAME);
 //		System.out.println("StartupCommand: send notification START_SERVER");
-        getFacade().sendNotification(ApplicationFacade.START_SERVER);
+        getFacade().sendNotification(ApplicationFacade.START_SERVER, serverPreferencesProxy);
 
         // Remove the command because it never be called more than once
         getFacade().removeCommand(ApplicationFacade.STARTUP);

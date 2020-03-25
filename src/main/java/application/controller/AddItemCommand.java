@@ -12,7 +12,8 @@ public class AddItemCommand extends SimpleCommand implements ICommand {
 
 	@Override
 	public final void execute(INotification notification) {
-		System.out.println("AddItemCommand: call addItem proxy method, notify ITEM_ADDED");
+		System.out.println("  AddItemCommand: execute()");
+
 		ItemVO item = (ItemVO) notification.getBody();
 		ItemProxy itemProxy = (ItemProxy)getFacade().retrieveProxy(ItemProxy.NAME);
 		itemProxy.addItem(item);
