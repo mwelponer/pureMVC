@@ -1,5 +1,7 @@
 package application.model.server;
 
+import org.json.JSONObject;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
@@ -41,6 +43,8 @@ public class MessageProcessor implements Runnable {
             BufferedReader inBufferReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             StringBuilder stringBuffer = new StringBuilder();
 
+            /////////////////////////////////////////////
+            // READ HTTP HEADER
             String inputLine;
             while ((inputLine = inBufferReader.readLine()) != null && !inputLine.equals("")) {
                 stringBuffer.append("  " + inputLine);
@@ -49,7 +53,8 @@ public class MessageProcessor implements Runnable {
 
             System.out.println(stringBuffer.toString());
 
-            // output stream
+            /////////////////////////////////////////////
+            // WRITE BACK TO CLIENT
             OutputStream outStream = clientSocket.getOutputStream();
             BufferedReader bufferedReader = new BufferedReader(new StringReader("A Message from server."));
 
@@ -75,6 +80,24 @@ public class MessageProcessor implements Runnable {
                 // Handle the case where client closed the connection while server was writing to it
                 clientSocket.close();
             }
+
+            /////////////////////////////////////////////
+            // READ HTTP PAYLOAD
+            //code to read the post payload data
+            StringBuilder payload = new StringBuilder();
+            while(inBufferReader.ready()){
+                payload.append((char) inBufferReader.read());
+            }
+            System.out.println("Payload data is: " + payload.toString());
+
+            // JSON
+            JSONObject jsonObject = new JSONObject(payload.toString());
+            System.out.println(jsonObject);
+
+            if(!jsonObject.has("id"))
+                System.out.println("  ..not found");
+            else
+                System.out.println("  id: " + jsonObject.getInt("id"));
 
 
             System.out.println("  ..message processed: " + resultdate);
