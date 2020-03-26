@@ -74,6 +74,8 @@ public class MainWindowMediator extends Mediator implements IMediator {
 				break;
 
 			case ApplicationFacade.MESSAGE_SENT:
+				mainWindow.clearOutputConsole();
+				mainWindow.writeToOutputConsole((String)notification.getBody());
 				break;
 
 			case ApplicationFacade.UPDATE_CONSOLE:

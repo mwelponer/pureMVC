@@ -38,7 +38,7 @@ public class ClientProxy extends Proxy implements IProxy {
         httpClient = HttpClients.createDefault();
     }
 
-    public final void sendMessage(MessageVO message) {
+    public final String sendMessage(MessageVO message) {
         System.out.println("  ClientProxy: sendMessage()");
 
         RequestMethod method = message.getMethod();
@@ -46,11 +46,14 @@ public class ClientProxy extends Proxy implements IProxy {
         String targetURL = message.getTargetURL();
         String payload = message.getJsonObject().toString();
 
+        String response = null;
         try{
             switch(message.getMethod()){
-                case GET: sendGet(targetURL, payload);
+                case GET:
+                    response = sendGet(targetURL, payload);
                     break;
-                case POST: sendPost(targetURL, payload);
+                case POST:
+                    response = sendPost(targetURL, payload);
                     break;
                 default:
             }
@@ -62,10 +65,12 @@ public class ClientProxy extends Proxy implements IProxy {
                 connection.disconnect();
             }
         }
+
+        return response;
     }
 
     // HTTP POST request
-    private void sendPost(String targetURL, String payload) throws Exception {
+    private String sendPost(String targetURL, String payload) throws Exception {
         System.out.println("  ClientProxy: sendPost()");
         //Create connection
         URL url = new URL(targetURL);
@@ -99,15 +104,16 @@ public class ClientProxy extends Proxy implements IProxy {
             response.append('\r');
         }
 
-        //TODO: send response to the outputconsole
-        ApplicationFacade.getInstance().sendNotification(
-                ApplicationFacade.UPDATE_CONSOLE, response.toString());
+//        //TODO: send response to the outputconsole
+//        ApplicationFacade.getInstance().sendNotification(
+//                ApplicationFacade.UPDATE_CONSOLE, response.toString());
 
         rd.close();
+        return response.toString();
     }
 
     // HTTP GET request
-    private void sendGet(String targetURL, String payload) throws Exception {
+    private String sendGet(String targetURL, String payload) throws Exception {
         System.out.println("  ClientProxy: sendGet()");
 
         String encPayload = payload.replace("\"", "%22");
@@ -128,26 +134,24 @@ public class ClientProxy extends Proxy implements IProxy {
         //request.addHeader("custom-key", "mkyong");
         request.addHeader(HttpHeaders.USER_AGENT, USER_AGENT);
 
-
-        try (CloseableHttpResponse response = httpClient.execute(request)) {
+        String response = null;
+        try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
 
             // Get HttpResponse Status
-            //System.out.println(response.getStatusLine().toString());
-            ApplicationFacade.getInstance().sendNotification(
-                    ApplicationFacade.UPDATE_CONSOLE, response.getStatusLine().toString());
+            //System.out.println(httpResponse.getStatusLine().toString());
 
-            HttpEntity entity = response.getEntity();
+            HttpEntity entity = httpResponse.getEntity();
             Header headers = entity.getContentType();
+            response = httpResponse.getStatusLine().toString() +
+                    "\r\n" + headers.toString();
+            System.out.println(response);
+            //ApplicationFacade.getInstance().sendNotification(ApplicationFacade.UPDATE_CONSOLE, response);
 
-            System.out.println(headers);
-            ApplicationFacade.getInstance().sendNotification(
-                    ApplicationFacade.UPDATE_CONSOLE, headers);
-
-            if (entity != null) {
-                // return it as a String
-                String result = EntityUtils.toString(entity);
-                System.out.println(result);
-            }
+//            if (entity != null) {
+//                // return it as a String
+//                String result = EntityUtils.toString(entity);
+//                System.out.println(result);
+//            }
         }
 
 
@@ -157,7 +161,8 @@ public class ClientProxy extends Proxy implements IProxy {
 //        StringBuilder stringBuilder = new StringBuilder(targetURL);
 //        //?json={%22name%22:%22John%22,%22age%22:32}
 //        stringBuilder.append("?json=");
-//        stringBuilder.append(payload.replace("\"", "%22"));
+//        stringBuilder.append(payload.replace("\"", "%22")
+//                .replace("{", "%7B").replace("}", "%7D"));
 //
 ////        stringBuilder.append(URLEncoder.encode(username, "UTF-8"));
 ////
@@ -166,7 +171,7 @@ public class ClientProxy extends Proxy implements IProxy {
 ////        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 //
 //        //Create connection
-//        URL url = new URL(targetURL);
+//        URL url = new URL(stringBuilder.toString());
 //        connection = (HttpURLConnection)url.openConnection();
 //        connection.setRequestMethod("GET");
 //        connection.setRequestProperty("User-Agent", USER_AGENT);
@@ -177,16 +182,28 @@ public class ClientProxy extends Proxy implements IProxy {
 ////        System.out.println("Response Message : " + connection.getResponseMessage());
 //
 //
-//        BufferedReader in = new BufferedReader(
-//                new InputStreamReader(connection.getInputStream()));
+////        BufferedReader in = new BufferedReader(
+////                new InputStreamReader(connection.getInputStream()));
+////        String line;
+////        StringBuffer response = new StringBuffer();
+////
+////        while ((line = in.readLine()) != null) {
+////            response.append(line);
+////        }
+////        in.close();
+//
+//        //Get Response
+//        InputStream is = connection.getInputStream();
+//        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
 //        String line;
 //        StringBuffer response = new StringBuffer();
-//
-//        while ((line = in.readLine()) != null) {
+//        while((line = rd.readLine()) != null) {
 //            response.append(line);
+//            response.append('\r');
 //        }
-//        in.close();
 //
 //        System.out.println("res: " + response.toString());
+
+        return response;
     }
 }

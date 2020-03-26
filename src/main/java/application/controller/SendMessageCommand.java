@@ -16,8 +16,8 @@ public class SendMessageCommand extends SimpleCommand implements ICommand {
 
         MessageVO message = (MessageVO) notification.getBody();
         ClientProxy clientProxy = (ClientProxy) getFacade().retrieveProxy(ClientProxy.NAME);
-        clientProxy.sendMessage(message);
+        String response = clientProxy.sendMessage(message);
 
-        sendNotification(ApplicationFacade.MESSAGE_SENT);
+        sendNotification(ApplicationFacade.MESSAGE_SENT, response);
     }
 }
