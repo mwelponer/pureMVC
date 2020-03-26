@@ -11,7 +11,7 @@ import javax.swing.border.*;
 
 import application.ApplicationFacade;
 import application.model.messages.MessageVO;
-import application.model.server.RequestMethod;
+import application.model.client.RequestMethod;
 import org.json.JSONObject;
 
 /**
@@ -29,17 +29,6 @@ public class MainWindow extends JFrame {
 		this.mediator = m;
 	}
 
-//	private void addButtonActionPerformed(ActionEvent e) {
-//		System.out.println("  MainWindow: addButtonActionPerformed()");
-//		String s = textField1.getText();
-//		if (!s.isEmpty()) {
-//			ItemVO item = new ItemVO(textField1.getText());
-//			mediator.sendNotification(ApplicationFacade.ADD_ITEM, item);
-//		}
-//
-//		textField1.requestFocus();
-//	}
-
     public void writeToOutputConsole(String output){
         System.out.println("  MainWindow: writeToOutputConsole()");
 	    response_textArea.append(output);
@@ -50,19 +39,14 @@ public class MainWindow extends JFrame {
         System.out.println("  MainWindow: clearOutputConsole()");
         response_textArea.setText("");
     }
-	
-	public void clearTextField() {
-		System.out.println("  MainWindow: clearTextField()");
-        url_textField.setText("");
-	}
 
 	private void menuItem3ActionPerformed(ActionEvent e) {
+        System.out.println("  MainWindow: menuItem3ActionPerformed()");
 		mediator.sendNotification(ApplicationFacade.SHUTDOWN);
-		//System.exit(0);
 	}
 
     private void send_ButtonActionPerformed(ActionEvent e) {
-        System.out.println("  MainWindow: sendButtonActionPerformed()");
+        System.out.println("  MainWindow: send_ButtonActionPerformed()");
 
         MessageVO message = new MessageVO();
         message.setMethod(RequestMethod.parse(method_comboBox.getSelectedIndex()));
@@ -86,6 +70,8 @@ public class MainWindow extends JFrame {
     }
 
     private void clear_ButtonActionPerformed(ActionEvent e) {
+        System.out.println("  MainWindow: clear_ButtonActionPerformed()");
+
         mediator.sendNotification(ApplicationFacade.CLEAR_MESSAGES);
     }
 
@@ -166,6 +152,7 @@ public class MainWindow extends JFrame {
 
                         //---- input_textArea ----
                         input_textArea.setMargin(new Insets(0, 3, 0, 0));
+                        input_textArea.setText("{\"coordX\": 0.111,\"coordY\": 6.666}");
                         scrollPane2.setViewportView(input_textArea);
                     }
                     splitPane1.setTopComponent(scrollPane2);
@@ -195,6 +182,7 @@ public class MainWindow extends JFrame {
                     //---- method_comboBox ----
                     method_comboBox.setModel(new DefaultComboBoxModel<>(new String[] {
                         "GET",
+                        "HEAD",
                         "POST"
                     }));
                     method_comboBox.setPreferredSize(new Dimension(93, 33));
@@ -205,7 +193,7 @@ public class MainWindow extends JFrame {
                     //---- url_textField ----
                     url_textField.setPreferredSize(new Dimension(30, 30));
                     url_textField.setMargin(new Insets(0, 0, 0, 0));
-                    url_textField.setText(" http://");
+                    url_textField.setText(" http://localhost:9000");
                     url_textField.setMaximumSize(new Dimension(2147483647, 30));
                     url_textField.setFocusCycleRoot(true);
                     panel1.add(url_textField);

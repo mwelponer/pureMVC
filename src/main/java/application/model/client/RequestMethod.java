@@ -1,4 +1,6 @@
-package application.model.server;
+package application.model.client;
+
+import lombok.Getter;
 
 public enum RequestMethod {
     GET(0),
@@ -10,6 +12,7 @@ public enum RequestMethod {
     OPTIONS(6),
     TRACE(7);
 
+    @Getter
     public final int index;
 
     RequestMethod(int index){

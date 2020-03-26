@@ -20,6 +20,7 @@ new FormModel {
 							add( new FormComponent( "javax.swing.JTextArea" ) {
 								name: "input_textArea"
 								"margin": new java.awt.Insets( 0, 3, 0, 0 )
+								"text": "{\"coordX\": 0.111,\"coordY\": 6.666}"
 							} )
 						}, new FormLayoutConstraints( class java.lang.String ) {
 							"value": "left"
@@ -49,6 +50,7 @@ new FormModel {
 							"model": new javax.swing.DefaultComboBoxModel {
 								selectedItem: "GET"
 								addElement( "GET" )
+								addElement( "HEAD" )
 								addElement( "POST" )
 							}
 							"preferredSize": new java.awt.Dimension( 93, 33 )
@@ -59,7 +61,7 @@ new FormModel {
 							name: "url_textField"
 							"preferredSize": new java.awt.Dimension( 30, 30 )
 							"margin": new java.awt.Insets( 0, 0, 0, 0 )
-							"text": " http://"
+							"text": " http://localhost:9000"
 							"maximumSize": new java.awt.Dimension( 2147483647, 30 )
 							"focusCycleRoot": true
 						} )

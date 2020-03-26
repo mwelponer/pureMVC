@@ -13,9 +13,9 @@ public class ApplicationFacade extends Facade implements IFacade {
 	
 	//public static final String ADD_ITEM = "addItem";
 	
-	public static final String ADD_ITEM = "AddItem";
-	public static final String ITEM_ADDED = "ItemAdded";
-	public static final String LOAD_ITEMS = "LoadItems";
+//	public static final String ADD_ITEM = "AddItem";
+//	public static final String ITEM_ADDED = "ItemAdded";
+//	public static final String LOAD_ITEMS = "LoadItems";
 
 	public static final String START_SERVER = "StartServer";
 	public static final String SERVER_STARTED = "ServerStarted";
@@ -52,7 +52,7 @@ public class ApplicationFacade extends Facade implements IFacade {
 		super.initializeController();
 		System.out.println("  ApplicationFacade: initializeController()");
 		registerCommand(STARTUP, new StartupCommand());
-		registerCommand(ADD_ITEM, new AddItemCommand());
+//		registerCommand(ADD_ITEM, new AddItemCommand());
 		registerCommand(START_SERVER, new StartServerCommand());
 		registerCommand(SEND_MESSAGE, new SendMessageCommand());
 		registerCommand(RECEIVE_MESSAGE, new ReceiveMessageCommand());

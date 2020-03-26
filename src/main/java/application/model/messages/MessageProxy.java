@@ -6,12 +6,12 @@ import org.puremvc.java.multicore.patterns.proxy.Proxy;
 import java.util.ArrayList;
 
 public class MessageProxy extends Proxy implements IProxy {
-    public static final String NAME = "JSONMessageProxy";
+    public static final String NAME = "MessageProxy";
     private static ArrayList<MessageVO> data = new ArrayList<MessageVO>();
 
     public MessageProxy() {
         super(NAME, data);
-        System.out.println("JSONMessageProxy()");
+        System.out.println("MessageProxy()");
     }
 
     public final ArrayList<MessageVO> messages() {
@@ -19,7 +19,7 @@ public class MessageProxy extends Proxy implements IProxy {
     }
 
     public final void addMessage(final MessageVO message) {
-        System.out.println("  JSONMessageProxy: addMessage()");
+        System.out.println("  MessageProxy: addMessage()");
         messages().add(message);
     }
 

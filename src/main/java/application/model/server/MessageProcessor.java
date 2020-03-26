@@ -1,8 +1,6 @@
 package application.model.server;
 
 import application.ApplicationFacade;
-import application.model.items.ItemVO;
-import application.model.messages.MessageProxy;
 import application.model.messages.MessageVO;
 import org.json.JSONObject;
 
@@ -50,17 +48,22 @@ public class MessageProcessor implements Runnable {
             //ApplicationFacade.getInstance().sendNotification(ApplicationFacade.UPDATE_CONSOLE, stringBuffer.toString());
             System.out.println("  --- HEADER ---\n" + stringBuffer.toString());
 
+            time = System.currentTimeMillis();
+            resultdate = new Date(time);
 
             /////////////////////////////////////////////
             // WRITE BACK TO CLIENT
             OutputStream outStream = clientSocket.getOutputStream();
-            BufferedReader bufferedReader = new BufferedReader(new StringReader("A Message from server."));
+            BufferedReader bufferedReader = new BufferedReader(
+                    new StringReader(resultdate + " - message received correctly."));
+
+            String ContentLength = "Content-Length:" + bufferedReader.readLine().length() + "\r\n";
 
             try {
                 // Header should be ended with '\r\n' at each line
                 outStream.write("HTTP/1.1 200 OK\r\n".getBytes());
                 //outStream.write("Main: OneServer 0.1\r\n".getBytes());
-                outStream.write("Content-Length: 22\r\n".getBytes()); // if text/plain the length is required
+                outStream.write(ContentLength.getBytes()); // if text/plain the length is required
                 outStream.write("Content-Type: text/plain\r\n".getBytes());
                 //outStream.write("Connection: close\r\n".getBytes());
 
@@ -82,14 +85,31 @@ public class MessageProcessor implements Runnable {
             /////////////////////////////////////////////
             // READ HTTP PAYLOAD
             //code to read the post payload data
-            StringBuilder payload = new StringBuilder();
-            while(inBufferReader.ready()){
-                payload.append((char) inBufferReader.read());
+            JSONObject jsonObject = null;
+            String trimmedStringBuffer = stringBuffer.toString().trim();
+            if(trimmedStringBuffer.startsWith("GET")){
+                // percent decript chars
+                String decPayload = trimmedStringBuffer.replace("%22", "\"");
+                decPayload = decPayload.replace("%7B", "{");
+                decPayload = decPayload.replace("%7D", "}");
+                // remove all that is not json
+                decPayload = decPayload.substring(decPayload.indexOf('{')+1);
+                decPayload = decPayload.substring(0, decPayload.indexOf('}'));
+                //add curly brackets again
+                decPayload = "{" + decPayload + "}";
+                jsonObject = new JSONObject(decPayload);
+            }else {
+                StringBuilder payload = new StringBuilder();
+                while (inBufferReader.ready()) {
+                    payload.append((char) inBufferReader.read());
+                }
+                jsonObject = new JSONObject(payload.toString());
             }
             //System.out.println("Payload data is: " + payload.toString());
 
             // JSON
-            JSONObject jsonObject = new JSONObject(payload.toString());
+            //System.out.println("payload: " + payload.toString());
+
 
             //TODO: use receiveMessageCommand
             MessageVO message = new MessageVO();

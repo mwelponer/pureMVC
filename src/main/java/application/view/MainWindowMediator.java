@@ -11,15 +11,12 @@ import org.puremvc.java.multicore.interfaces.INotification;
 import org.puremvc.java.multicore.patterns.mediator.Mediator;
 
 import application.ApplicationFacade;
-import application.model.items.ItemProxy;
-import application.model.items.ItemVO;
 
 
 public class MainWindowMediator extends Mediator implements IMediator {
 
 	private static final String NAME = "MainWindowMediator";
 	private static MainWindow mainWindow = null;
-	private ItemProxy itemProxy = null;
 	private MessageProxy messageProxy = null;
 	
 	public MainWindowMediator() {
@@ -37,7 +34,6 @@ public class MainWindowMediator extends Mediator implements IMediator {
 	public void onRegister() {
 		// TODO Auto-generated method stub
 		System.out.println("  MainWindowMediator: onRegister()");
-		itemProxy = (ItemProxy) getFacade().retrieveProxy(ItemProxy.NAME);
 		messageProxy = (MessageProxy) getFacade().retrieveProxy(MessageProxy.NAME);
 		super.onRegister();
 	}
@@ -51,13 +47,9 @@ public class MainWindowMediator extends Mediator implements IMediator {
 		// TODO Auto-generated method stub
 		return new String[] {
 			ApplicationFacade.SHOW_MAIN_WINDOW,
-            ApplicationFacade.ADD_ITEM,
-            ApplicationFacade.ITEM_ADDED,
-			ApplicationFacade.LOAD_ITEMS,
 			ApplicationFacade.SEND_MESSAGE,
             ApplicationFacade.MESSAGE_SENT,
 			ApplicationFacade.UPDATE_CONSOLE,
-			ApplicationFacade.MESSAGE_ADDED,
 			ApplicationFacade.LOAD_MESSAGES,
             ApplicationFacade.SHUTDOWN
 		};
@@ -81,27 +73,12 @@ public class MainWindowMediator extends Mediator implements IMediator {
 			case ApplicationFacade.SERVER_STARTED:
 				break;
 
-        	case ApplicationFacade.ITEM_ADDED:
-        		sendNotification(ApplicationFacade.LOAD_ITEMS);
-				break;
-
-			case ApplicationFacade.LOAD_ITEMS:
-				mainWindow.clearOutputConsole();
-
-				for (ItemVO itemVO : itemProxy.items()) {
-					mainWindow.writeToOutputConsole(itemVO.getText());
-				}
-				break;
-
 			case ApplicationFacade.MESSAGE_SENT:
 				break;
 
 			case ApplicationFacade.UPDATE_CONSOLE:
+				mainWindow.clearOutputConsole();
 				mainWindow.writeToOutputConsole((String)notification.getBody());
-				break;
-
-			case ApplicationFacade.MESSAGE_ADDED:
-				sendNotification(ApplicationFacade.LOAD_MESSAGES);
 				break;
 
 			case ApplicationFacade.LOAD_MESSAGES:
@@ -119,10 +96,6 @@ public class MainWindowMediator extends Mediator implements IMediator {
 					mainWindow.writeToOutputConsole(coords);
 				}
 
-				break;
-
-			case ApplicationFacade.MESSAGES_CLEARED:
-				sendNotification(ApplicationFacade.LOAD_MESSAGES);
 				break;
 
 			case ApplicationFacade.SHUTDOWN:

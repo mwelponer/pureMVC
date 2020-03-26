@@ -1,6 +1,6 @@
 package application.model.messages;
 
-import application.model.server.RequestMethod;
+import application.model.client.RequestMethod;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
