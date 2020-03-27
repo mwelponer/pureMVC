@@ -33,6 +33,7 @@ public class MessageProcessor implements Runnable {
             BufferedReader inBufferReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             StringBuilder stringBuffer = new StringBuilder();
 
+
             /////////////////////////////////////////////
             // READ HTTP HEADER
             String inputLine;
@@ -52,21 +53,14 @@ public class MessageProcessor implements Runnable {
 
             time = System.currentTimeMillis();
             resultdate = new Date(time);
-            OutputStream outStream = null;
+            OutputStream outStream = clientSocket.getOutputStream();
             BufferedReader bufferedReader = null;
+
 
             /////////////////////////////////////////////
             // WRITE BACK TO CLIENT
-            if(trimmedStringBuffer.startsWith("POST")) {
-                outStream = clientSocket.getOutputStream();
-                bufferedReader = new BufferedReader(
-                        new StringReader(resultdate + " - server reply: HTTP/1.1 200 OK"));
-            }
-
             //String ContentLength = "Content-Length:" + bufferedReader.readLine().length() + "\r\n";
-
             try {
-                System.out.println("passssssssssssssso!!!");
                 // Header should be ended with '\r\n' at each line
                 outStream.write("HTTP/1.1 200 OK\r\n".getBytes());
                 //outStream.write("Main: OneServer 0.1\r\n".getBytes());
@@ -78,9 +72,15 @@ public class MessageProcessor implements Runnable {
                 // An empty line is required after the header
                 outStream.write("\r\n".getBytes());
 
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    outStream.write(line.getBytes());
+                if(trimmedStringBuffer.startsWith("POST")) {
+                    //outStream = clientSocket.getOutputStream();
+                    bufferedReader = new BufferedReader(
+                            new StringReader(resultdate + " - server reply: HTTP/1.1 200 OK"));
+
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        outStream.write(line.getBytes());
+                    }
                 }
 
                 outStream.flush();
@@ -105,19 +105,19 @@ public class MessageProcessor implements Runnable {
                 //add curly brackets again
                 decPayload = "{" + decPayload + "}";
                 jsonObject = new JSONObject(decPayload);
-            }else {
+
+            }else if (trimmedStringBuffer.startsWith("POST")){
                 StringBuilder payload = new StringBuilder();
                 while (inBufferReader.ready()) {
                     payload.append((char) inBufferReader.read());
                 }
                 jsonObject = new JSONObject(payload.toString());
             }
-            //System.out.println("Payload data is: " + payload.toString());
 
+
+            /////////////////////////////////////////////
             // JSON
             //System.out.println("payload: " + payload.toString());
-
-
             //TODO: use receiveMessageCommand
             MessageVO message = new MessageVO();
             message.setTimestamp(time);
@@ -125,12 +125,6 @@ public class MessageProcessor implements Runnable {
             ApplicationFacade.getInstance().sendNotification(ApplicationFacade.RECEIVE_MESSAGE, message);
             //ApplicationFacade.getInstance().sendNotification(ApplicationFacade.ADD_ITEM, new ItemVO("ciccio"));
             //System.out.println(jsonObject);
-
-//            if(!jsonObject.has("id"))
-//                System.out.println("  ..not found");
-//            else
-//                System.out.println("  id: " + jsonObject.getInt("id"));
-
 
             System.out.println("  ..message processed: " + resultdate);
         } catch (IOException e) {
