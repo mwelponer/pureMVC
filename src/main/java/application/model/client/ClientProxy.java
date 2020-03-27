@@ -110,12 +110,11 @@ public class ClientProxy extends Proxy implements IProxy {
         List<String>responseL = new ArrayList<>();
 
         while((line = rd.readLine()) != null) {
-            response.append(line);
-            response.append('\r');
+//            response.append(line);
+//            response.append('\r');
             responseL.add(line);
         }
-
-        System.out.println("response: " + response.toString());
+        
         System.out.println("  --- HEADER ---\n  " + responseL.get(0) + "\n  " + responseL.get(1));
 
         //TODO: send response to the outputconsole
