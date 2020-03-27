@@ -103,20 +103,24 @@ public class ClientProxy extends Proxy implements IProxy {
         //Get Response from the server (read response into payload)
         InputStream is = connection.getInputStream();
         BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-        String line;
+        String line, statusCode, contentType;
         StringBuffer response = new StringBuffer();
 
-        System.out.println("  --- HEADER ---");
-        while((line = rd.readLine()) != null) {
-            System.out.println("  " + line);
+//        while((line = rd.readLine()) != null) {
 //            response.append(line);
 //            response.append('\r');
-        }
+//        }
 
-        //TODO: send response to the outputconsole
-        response.append(resultdate + " - server reply: HTTP/1.1 200 OK");
+        while((statusCode = rd.readLine()) != null) { break;}
+        while((contentType = rd.readLine()) != null) {
+            System.out.println("  --- HEADER ---\n  " + statusCode + "\n  " + contentType);
+
+            //TODO: send response to the outputconsole
+            response.append(resultdate + " - server reply: " + statusCode);
 //        ApplicationFacade.getInstance().sendNotification(
 //                ApplicationFacade.UPDATE_CONSOLE, resultdate + " - server reply: HTTP/1.1 200 OK");
+            break;
+        }
 
         rd.close();
 
