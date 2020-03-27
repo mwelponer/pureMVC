@@ -145,7 +145,7 @@ public class ClientProxy extends Proxy implements IProxy {
 
             time = System.currentTimeMillis();
             resultdate = new Date(time);
-            response = resultdate + " - message from the server: " + httpResponse.getStatusLine().toString();
+            response = resultdate + " - server reply: " + httpResponse.getStatusLine().toString();
 
             System.out.println("  --- HEADER ---\n" +
                     httpResponse.getStatusLine().toString() + "\n" + entity.getContentType() + "\n");

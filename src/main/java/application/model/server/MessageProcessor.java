@@ -60,7 +60,7 @@ public class MessageProcessor implements Runnable {
             if(trimmedStringBuffer.startsWith("POST")) {
                 outStream = clientSocket.getOutputStream();
                 bufferedReader = new BufferedReader(
-                        new StringReader(resultdate + " - message from the server: HTTP/1.1 200 OK"));
+                        new StringReader(resultdate + " - server reply: HTTP/1.1 200 OK"));
             }
 
             //String ContentLength = "Content-Length:" + bufferedReader.readLine().length() + "\r\n";
