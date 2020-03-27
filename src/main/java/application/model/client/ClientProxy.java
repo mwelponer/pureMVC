@@ -19,7 +19,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ClientProxy extends Proxy implements IProxy {
     public static final String NAME = "ClientProxy";
@@ -105,22 +107,22 @@ public class ClientProxy extends Proxy implements IProxy {
         BufferedReader rd = new BufferedReader(new InputStreamReader(is));
         String line, statusCode, contentType;
         StringBuffer response = new StringBuffer();
+        List<String>responseL = new ArrayList<>();
 
-//        while((line = rd.readLine()) != null) {
-//            response.append(line);
-//            response.append('\r');
-//        }
+        while((line = rd.readLine()) != null) {
+            response.append(line);
+            response.append('\r');
+            responseL.add(line);
+        }
 
-        while((statusCode = rd.readLine()) != null) { break;}
-        while((contentType = rd.readLine()) != null) {
-            System.out.println("  --- HEADER ---\n  " + statusCode + "\n  " + contentType);
+        System.out.println("response: " + response.toString());
+        System.out.println("  --- HEADER ---\n  " + responseL.get(0) + "\n  " + responseL.get(1));
 
-            //TODO: send response to the outputconsole
-            response.append(resultdate + " - server reply: " + statusCode);
+        //TODO: send response to the outputconsole
+        response.append(resultdate + " - server reply: " + responseL.get(0));
 //        ApplicationFacade.getInstance().sendNotification(
 //                ApplicationFacade.UPDATE_CONSOLE, resultdate + " - server reply: HTTP/1.1 200 OK");
-            break;
-        }
+
 
         rd.close();
 

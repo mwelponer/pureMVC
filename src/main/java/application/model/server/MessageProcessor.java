@@ -49,37 +49,6 @@ public class MessageProcessor implements Runnable {
             System.out.println("  --- HEADER ---\n" + stringBuffer.toString());
 
 
-
-            /////////////////////////////////////////////
-            // READ HTTP PAYLOAD
-            //code to read the post payload data
-            JSONObject jsonObject = null;
-            if(trimmedStringBuffer.startsWith("GET")){
-                // percent decript chars
-                String decPayload = trimmedStringBuffer.replace("%22", "\"");
-                decPayload = decPayload.replace("%7B", "{");
-                decPayload = decPayload.replace("%7D", "}");
-                // remove all that is not json
-                decPayload = decPayload.substring(decPayload.indexOf('{')+1);
-                decPayload = decPayload.substring(0, decPayload.indexOf('}'));
-                //add curly brackets again
-                decPayload = "{" + decPayload + "}";
-                jsonObject = new JSONObject(decPayload);
-
-            }else if (trimmedStringBuffer.startsWith("POST")){
-                StringBuilder payload = new StringBuilder();
-
-                while (inBufferReader.ready()) {
-                        payload.append((char) inBufferReader.read());
-                }
-
-                System.out.println("  --- PAYLOAD ---\n  '" + payload + "'");
-
-                if(!payload.toString().isEmpty())
-                    jsonObject = new JSONObject(payload.toString());
-            }
-
-
             /////////////////////////////////////////////
             // WRITE BACK TO CLIENT
             //String ContentLength = "Content-Length:" + bufferedReader.readLine().length() + "\r\n";
@@ -87,10 +56,10 @@ public class MessageProcessor implements Runnable {
                 OutputStream outStream = clientSocket.getOutputStream();
 
                 // Header should be ended with '\r\n' at each line
-                if(jsonObject == null)
-                    outStream.write("HTTP/1.1 204 No Content\r\n".getBytes());
-                else
-                    outStream.write("HTTP/1.1 200 OK\r\n".getBytes());
+//                if(jsonObject == null)
+//                    outStream.write("HTTP/1.1 204 No Content\r\n".getBytes());
+//                else
+                outStream.write("HTTP/1.1 200 OK\r\n".getBytes());
 
                 //outStream.write("Main: OneServer 0.1\r\n".getBytes());
                 outStream.write("Content-Length: 22\r\n".getBytes()); // if text/plain the length is required
@@ -113,6 +82,36 @@ public class MessageProcessor implements Runnable {
             } catch (SocketException e) {
                 // Handle the case where client closed the connection while server was writing to it
                 clientSocket.close();
+            }
+
+
+            /////////////////////////////////////////////
+            // READ HTTP PAYLOAD
+            //code to read the post payload data
+            JSONObject jsonObject = null;
+            if(trimmedStringBuffer.startsWith("GET")){
+                // percent decript chars
+                String decPayload = trimmedStringBuffer.replace("%22", "\"");
+                decPayload = decPayload.replace("%7B", "{");
+                decPayload = decPayload.replace("%7D", "}");
+                // remove all that is not json
+                decPayload = decPayload.substring(decPayload.indexOf('{')+1);
+                decPayload = decPayload.substring(0, decPayload.indexOf('}'));
+                //add curly brackets again
+                decPayload = "{" + decPayload + "}";
+                jsonObject = new JSONObject(decPayload);
+
+            }else if (trimmedStringBuffer.startsWith("POST")){
+                StringBuilder payload = new StringBuilder();
+
+                while (inBufferReader.ready()) {
+                    payload.append((char) inBufferReader.read());
+                }
+
+                System.out.println("  --- PAYLOAD ---\n  '" + payload + "'");
+
+                if(!payload.toString().isEmpty())
+                    jsonObject = new JSONObject(payload.toString());
             }
 
 
