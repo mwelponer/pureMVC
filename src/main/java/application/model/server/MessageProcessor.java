@@ -27,9 +27,6 @@ public class MessageProcessor implements Runnable {
         System.out.println("  MessageProcessor: run()");
 
         try {
-            long time = System.currentTimeMillis();
-            Date resultdate = new Date(time);
-
             // input stream
             BufferedReader inBufferReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             StringBuilder stringBuffer = new StringBuilder();
@@ -52,38 +49,6 @@ public class MessageProcessor implements Runnable {
             System.out.println("  --- HEADER ---\n" + stringBuffer.toString());
 
 
-            time = System.currentTimeMillis();
-            resultdate = new Date(time);
-            OutputStream outStream = clientSocket.getOutputStream();
-
-            /////////////////////////////////////////////
-            // WRITE BACK TO CLIENT
-            //String ContentLength = "Content-Length:" + bufferedReader.readLine().length() + "\r\n";
-            try {
-                // Header should be ended with '\r\n' at each line
-                outStream.write("HTTP/1.1 200 OK\r\n".getBytes());
-                //outStream.write("Main: OneServer 0.1\r\n".getBytes());
-                outStream.write("Content-Length: 22\r\n".getBytes()); // if text/plain the length is required
-                //outStream.write(ContentLength.getBytes()); // if text/plain the length is required
-                outStream.write("Content-Type: text/plain\r\n".getBytes());
-                //outStream.write("Connection: close\r\n".getBytes());
-
-                // An empty line is required after the header
-                outStream.write("\r\n".getBytes());
-
-                if(trimmedStringBuffer.startsWith("POST")) {
-                    // insert header as payload
-                    outStream.write("HTTP/1.1 200 OK\r\n".getBytes());
-                    outStream.write("Content-Type: text/plain\r\n".getBytes());
-                    outStream.write("\r\n".getBytes());
-                }
-
-                outStream.flush();
-                outStream.close(); // Socket will close automatically once output stream is closed.
-            } catch (SocketException e) {
-                // Handle the case where client closed the connection while server was writing to it
-                clientSocket.close();
-            }
 
             /////////////////////////////////////////////
             // READ HTTP PAYLOAD
@@ -108,27 +73,63 @@ public class MessageProcessor implements Runnable {
                         payload.append((char) inBufferReader.read());
                 }
 
-                if(payload.toString().isEmpty()) {
-                    System.out.println("  payload: '" + payload + "'");
-                    return;
-                }
+                System.out.println("  --- PAYLOAD ---\n  '" + payload + "'");
 
-                jsonObject = new JSONObject(payload.toString());
+                if(!payload.toString().isEmpty())
+                    jsonObject = new JSONObject(payload.toString());
+            }
+
+
+            /////////////////////////////////////////////
+            // WRITE BACK TO CLIENT
+            //String ContentLength = "Content-Length:" + bufferedReader.readLine().length() + "\r\n";
+            try {
+                OutputStream outStream = clientSocket.getOutputStream();
+
+                // Header should be ended with '\r\n' at each line
+                if(jsonObject == null)
+                    outStream.write("HTTP/1.1 204 No Content\r\n".getBytes());
+                else
+                    outStream.write("HTTP/1.1 200 OK\r\n".getBytes());
+
+                //outStream.write("Main: OneServer 0.1\r\n".getBytes());
+                outStream.write("Content-Length: 22\r\n".getBytes()); // if text/plain the length is required
+                //outStream.write(ContentLength.getBytes()); // if text/plain the length is required
+                outStream.write("Content-Type: text/plain\r\n".getBytes());
+                //outStream.write("Connection: close\r\n".getBytes());
+
+                // An empty line is required after the header
+                outStream.write("\r\n".getBytes());
+
+//                if(trimmedStringBuffer.startsWith("POST")) {
+//                    // insert header as payload
+//                    outStream.write("HTTP/1.1 200 OK\r\n".getBytes());
+//                    outStream.write("Content-Type: text/plain\r\n".getBytes());
+//                    outStream.write("\r\n".getBytes());
+//                }
+
+                outStream.flush();
+                outStream.close(); // Socket will close automatically once output stream is closed.
+            } catch (SocketException e) {
+                // Handle the case where client closed the connection while server was writing to it
+                clientSocket.close();
             }
 
 
             /////////////////////////////////////////////
             // JSON
             //System.out.println("payload: " + payload.toString());
-            //TODO: use receiveMessageCommand
-            MessageVO message = new MessageVO();
-            message.setTimestamp(time);
-            message.setJsonObject(jsonObject);
-            ApplicationFacade.getInstance().sendNotification(ApplicationFacade.RECEIVE_MESSAGE, message);
-            //ApplicationFacade.getInstance().sendNotification(ApplicationFacade.ADD_ITEM, new ItemVO("ciccio"));
-            //System.out.println(jsonObject);
+            if(jsonObject != null) {
+                //TODO: use receiveMessageCommand
+                MessageVO message = new MessageVO();
+                message.setTimestamp(System.currentTimeMillis());
+                message.setJsonObject(jsonObject);
+                ApplicationFacade.getInstance().sendNotification(ApplicationFacade.RECEIVE_MESSAGE, message);
+                //ApplicationFacade.getInstance().sendNotification(ApplicationFacade.ADD_ITEM, new ItemVO("ciccio"));
+                //System.out.println(jsonObject);
 
-            System.out.println("  ..message processed: " + resultdate);
+                System.out.println("  ..message processed");
+            }
         } catch (IOException e) {
             //report exception somewhere.
             e.printStackTrace();
