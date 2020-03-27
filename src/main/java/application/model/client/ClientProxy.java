@@ -95,7 +95,7 @@ public class ClientProxy extends Proxy implements IProxy {
         wr.flush();
         wr.close();
 
-        //Get Response
+        //Get Response from the server
         InputStream is = connection.getInputStream();
         BufferedReader rd = new BufferedReader(new InputStreamReader(is));
         String line;
@@ -105,7 +105,7 @@ public class ClientProxy extends Proxy implements IProxy {
             response.append('\r');
         }
 
-        System.out.println("response post: " + response);
+        System.out.println("  --- HEADER ---\n  " + response);
 
         //TODO: send response to the outputconsole
         ApplicationFacade.getInstance().sendNotification(
@@ -140,6 +140,7 @@ public class ClientProxy extends Proxy implements IProxy {
 
         String response = null;
         try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
+            // get response from the hhtpClient
             HttpEntity entity = httpResponse.getEntity();
             Header headers = entity.getContentType();
 
@@ -147,8 +148,8 @@ public class ClientProxy extends Proxy implements IProxy {
             resultdate = new Date(time);
             response = resultdate + " - server reply: " + httpResponse.getStatusLine().toString();
 
-            System.out.println("  --- HEADER ---\n" +
-                    httpResponse.getStatusLine().toString() + "\n" + entity.getContentType() + "\n");
+            System.out.println("  --- HEADER ---\n  " +
+                    httpResponse.getStatusLine().toString() + "\n  " + entity.getContentType() + "\n");
             //ApplicationFacade.getInstance().sendNotification(ApplicationFacade.UPDATE_CONSOLE, response);
 
 //            if (entity != null) {
@@ -157,56 +158,6 @@ public class ClientProxy extends Proxy implements IProxy {
 //                System.out.println(result);
 //            }
         }
-
-
-
-
-////        String username="hitenpratap";
-//        StringBuilder stringBuilder = new StringBuilder(targetURL);
-//        //?json={%22name%22:%22John%22,%22age%22:32}
-//        stringBuilder.append("?json=");
-//        stringBuilder.append(payload.replace("\"", "%22")
-//                .replace("{", "%7B").replace("}", "%7D"));
-//
-////        stringBuilder.append(URLEncoder.encode(username, "UTF-8"));
-////
-////        URL obj = new URL(stringBuilder.toString());
-//
-////        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-//
-//        //Create connection
-//        URL url = new URL(stringBuilder.toString());
-//        connection = (HttpURLConnection)url.openConnection();
-//        connection.setRequestMethod("GET");
-//        connection.setRequestProperty("User-Agent", USER_AGENT);
-//        connection.setRequestProperty("Accept-Charset", "UTF-8");
-//
-////        System.out.println("\nSending request to URL : " + targetURL);
-////        System.out.println("Response Code : " + connection.getResponseCode());
-////        System.out.println("Response Message : " + connection.getResponseMessage());
-//
-//
-////        BufferedReader in = new BufferedReader(
-////                new InputStreamReader(connection.getInputStream()));
-////        String line;
-////        StringBuffer response = new StringBuffer();
-////
-////        while ((line = in.readLine()) != null) {
-////            response.append(line);
-////        }
-////        in.close();
-//
-//        //Get Response
-//        InputStream is = connection.getInputStream();
-//        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-//        String line;
-//        StringBuffer response = new StringBuffer();
-//        while((line = rd.readLine()) != null) {
-//            response.append(line);
-//            response.append('\r');
-//        }
-//
-//        System.out.println("res: " + response.toString());
 
         return response;
     }
