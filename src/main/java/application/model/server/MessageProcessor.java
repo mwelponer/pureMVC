@@ -73,14 +73,9 @@ public class MessageProcessor implements Runnable {
                 outStream.write("\r\n".getBytes());
 
                 if(trimmedStringBuffer.startsWith("POST")) {
-                    //outStream = clientSocket.getOutputStream();
-                    bufferedReader = new BufferedReader(
-                            new StringReader("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n"));
-
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        outStream.write(line.getBytes());
-                    }
+                    // insert header as payload
+                    outStream.write("HTTP/1.1 200 OK\r\n".getBytes());
+                    outStream.write("Content-Type: text/plain\r\n".getBytes());
                 }
 
                 outStream.flush();

@@ -73,6 +73,10 @@ public class ClientProxy extends Proxy implements IProxy {
     // HTTP POST request
     private String sendPost(String targetURL, String payload) throws Exception {
         System.out.println("  ClientProxy: sendPost()");
+
+        long time = System.currentTimeMillis();
+        Date resultdate = new Date(time);
+
         //Create connection
         URL url = new URL(targetURL);
         connection = (HttpURLConnection)url.openConnection();
@@ -95,21 +99,23 @@ public class ClientProxy extends Proxy implements IProxy {
         wr.flush();
         wr.close();
 
-        //Get Response from the server
+        //Get Response from the server (read response into payload)
         InputStream is = connection.getInputStream();
         BufferedReader rd = new BufferedReader(new InputStreamReader(is));
         String line;
         StringBuffer response = new StringBuffer();
+
+        System.out.println("  --- HEADER ---");
         while((line = rd.readLine()) != null) {
-            response.append(line);
-            response.append('\r');
+            System.out.println("  " + line);
+//            response.append(line);
+//            response.append('\r');
         }
 
-        System.out.println("  --- HEADER ---\n  " + response);
-
         //TODO: send response to the outputconsole
-        ApplicationFacade.getInstance().sendNotification(
-                ApplicationFacade.UPDATE_CONSOLE, response.toString());
+        response.append(resultdate + " - server reply: HTTP/1.1 200 OK");
+//        ApplicationFacade.getInstance().sendNotification(
+//                ApplicationFacade.UPDATE_CONSOLE, resultdate + " - server reply: HTTP/1.1 200 OK");
 
         rd.close();
 
