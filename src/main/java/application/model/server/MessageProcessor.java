@@ -41,48 +41,12 @@ public class MessageProcessor implements Runnable {
             }
 
             String trimmedStringBuffer;
-            if(stringBuffer.toString().isEmpty()) return;
+            if(stringBuffer.toString().isEmpty()) {clientSocket.close(); return;}
             else trimmedStringBuffer = stringBuffer.toString().trim();
 
             //TODO: send update output console to facade
             //ApplicationFacade.getInstance().sendNotification(ApplicationFacade.UPDATE_CONSOLE, stringBuffer.toString());
             System.out.println("  --- HEADER ---\n" + stringBuffer.toString());
-
-
-            /////////////////////////////////////////////
-            // WRITE BACK TO CLIENT
-            //String ContentLength = "Content-Length:" + bufferedReader.readLine().length() + "\r\n";
-            try {
-                OutputStream outStream = clientSocket.getOutputStream();
-
-                // Header should be ended with '\r\n' at each line
-//                if(jsonObject == null)
-//                    outStream.write("HTTP/1.1 204 No Content\r\n".getBytes());
-//                else
-                outStream.write("HTTP/1.1 200 OK\r\n".getBytes());
-
-                //outStream.write("Main: OneServer 0.1\r\n".getBytes());
-                outStream.write("Content-Length: 22\r\n".getBytes()); // if text/plain the length is required
-                //outStream.write(ContentLength.getBytes()); // if text/plain the length is required
-                outStream.write("Content-Type: text/plain\r\n".getBytes());
-                //outStream.write("Connection: close\r\n".getBytes());
-
-                // An empty line is required after the header
-                outStream.write("\r\n".getBytes());
-
-//                if(trimmedStringBuffer.startsWith("POST")) {
-//                    // insert header as payload
-//                    outStream.write("HTTP/1.1 200 OK\r\n".getBytes());
-//                    outStream.write("Content-Type: text/plain\r\n".getBytes());
-//                    outStream.write("\r\n".getBytes());
-//                }
-
-                outStream.flush();
-                outStream.close(); // Socket will close automatically once output stream is closed.
-            } catch (SocketException e) {
-                // Handle the case where client closed the connection while server was writing to it
-                clientSocket.close();
-            }
 
 
             /////////////////////////////////////////////
@@ -112,6 +76,45 @@ public class MessageProcessor implements Runnable {
 
                 if(!payload.toString().isEmpty())
                     jsonObject = new JSONObject(payload.toString());
+            }
+
+
+            /////////////////////////////////////////////
+            // WRITE BACK TO CLIENT
+            OutputStream outStream = clientSocket.getOutputStream();
+            //String ContentLength = "Content-Length:" + bufferedReader.readLine().length() + "\r\n";
+            try {
+                // Header should be ended with '\r\n' at each line
+//                if(jsonObject == null)
+//                    outStream.write("HTTP/1.1 204 No Content\r\n".getBytes());
+//                else
+                outStream.write("HTTP/1.1 200 OK\r\n".getBytes());
+
+                //outStream.write("Main: OneServer 0.1\r\n".getBytes());
+                outStream.write("Content-Length: 22\r\n".getBytes()); // if text/plain the length is required
+                //outStream.write(ContentLength.getBytes()); // if text/plain the length is required
+                outStream.write("Content-Type: text/plain\r\n".getBytes());
+                //outStream.write("Connection: close\r\n".getBytes());
+
+                // An empty line is required after the header
+                outStream.write("\r\n".getBytes());
+
+                if(trimmedStringBuffer.startsWith("POST")) {
+                    // insert response in payload
+                    if(jsonObject == null)
+                        outStream.write("HTTP/1.1 204 No Content\r\n".getBytes());
+                    else
+                        outStream.write("HTTP/1.1 200 OK\r\n".getBytes());
+
+                    outStream.write("Content-Type: text/plain\r\n".getBytes());
+                    outStream.write("\r\n".getBytes());
+                }
+
+                outStream.flush();
+                outStream.close(); // Socket will close automatically once output stream is closed.
+            } catch (SocketException e) {
+                // Handle the case where client closed the connection while server was writing to it
+                clientSocket.close();
             }
 
 
