@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 
 public class ClientProxy extends Proxy implements IProxy {
     public static final String NAME = "ClientProxy";
@@ -104,11 +105,14 @@ public class ClientProxy extends Proxy implements IProxy {
             response.append('\r');
         }
 
-//        //TODO: send response to the outputconsole
-//        ApplicationFacade.getInstance().sendNotification(
-//                ApplicationFacade.UPDATE_CONSOLE, response.toString());
+        System.out.println("response post: " + response);
+
+        //TODO: send response to the outputconsole
+        ApplicationFacade.getInstance().sendNotification(
+                ApplicationFacade.UPDATE_CONSOLE, response.toString());
 
         rd.close();
+
         return response.toString();
     }
 
@@ -116,35 +120,35 @@ public class ClientProxy extends Proxy implements IProxy {
     private String sendGet(String targetURL, String payload) throws Exception {
         System.out.println("  ClientProxy: sendGet()");
 
+        long time = System.currentTimeMillis();
+        Date resultdate = new Date(time);
+
+        // % encripts special chars
+        // http://localhost:9000?%7BcoordX=0.9&coordY=0.1%7D
         String encPayload = payload.replace("\"", "%22");
         encPayload = encPayload.replace("{", "%7B");
         encPayload = encPayload.replace("}", "%7D");
 
         StringBuilder stringBuilder = new StringBuilder(targetURL.replace(" ", ""));
-        //?json={%22name%22:%22John%22,%22age%22:32}
-        //?json=%7B%22name%22:%22John%22,%22age%22:32%7D
         stringBuilder.append("?json=");
         stringBuilder.append(encPayload);
 
-//        String test = "http://localhost:9000?%7BcoordX=0.9&coordY=0.1%7D";
-//        HttpGet request = new HttpGet(test);
         HttpGet request = new HttpGet(stringBuilder.toString());
 
         // add request headers
-        //request.addHeader("custom-key", "mkyong");
         request.addHeader(HttpHeaders.USER_AGENT, USER_AGENT);
 
         String response = null;
         try (CloseableHttpResponse httpResponse = httpClient.execute(request)) {
-
-            // Get HttpResponse Status
-            //System.out.println(httpResponse.getStatusLine().toString());
-
             HttpEntity entity = httpResponse.getEntity();
             Header headers = entity.getContentType();
-            response = httpResponse.getStatusLine().toString() +
-                    "\r\n" + headers.toString();
-            System.out.println(response);
+
+            time = System.currentTimeMillis();
+            resultdate = new Date(time);
+            response = resultdate + " - message from the server: " + httpResponse.getStatusLine().toString();
+
+            System.out.println("  --- HEADER ---\n" +
+                    httpResponse.getStatusLine().toString() + "\n" + entity.getContentType() + "\n");
             //ApplicationFacade.getInstance().sendNotification(ApplicationFacade.UPDATE_CONSOLE, response);
 
 //            if (entity != null) {
