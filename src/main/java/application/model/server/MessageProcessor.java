@@ -2,6 +2,7 @@ package application.model.server;
 
 import application.ApplicationFacade;
 import application.model.messages.MessageVO;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -54,8 +55,6 @@ public class MessageProcessor implements Runnable {
             time = System.currentTimeMillis();
             resultdate = new Date(time);
             OutputStream outStream = clientSocket.getOutputStream();
-            BufferedReader bufferedReader = null;
-
 
             /////////////////////////////////////////////
             // WRITE BACK TO CLIENT
@@ -76,6 +75,7 @@ public class MessageProcessor implements Runnable {
                     // insert header as payload
                     outStream.write("HTTP/1.1 200 OK\r\n".getBytes());
                     outStream.write("Content-Type: text/plain\r\n".getBytes());
+                    outStream.write("\r\n".getBytes());
                 }
 
                 outStream.flush();
@@ -103,9 +103,16 @@ public class MessageProcessor implements Runnable {
 
             }else if (trimmedStringBuffer.startsWith("POST")){
                 StringBuilder payload = new StringBuilder();
+
                 while (inBufferReader.ready()) {
-                    payload.append((char) inBufferReader.read());
+                        payload.append((char) inBufferReader.read());
                 }
+
+                if(payload.toString().isEmpty()) {
+                    System.out.println("  payload: '" + payload + "'");
+                    return;
+                }
+
                 jsonObject = new JSONObject(payload.toString());
             }
 

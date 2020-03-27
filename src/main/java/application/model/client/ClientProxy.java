@@ -95,6 +95,7 @@ public class ClientProxy extends Proxy implements IProxy {
 
         //Send request
         DataOutputStream wr = new DataOutputStream (connection.getOutputStream());
+        System.out.println("payload: " + payload);
         wr.writeBytes(payload);
         wr.flush();
         wr.close();
