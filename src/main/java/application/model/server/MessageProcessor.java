@@ -2,14 +2,10 @@ package application.model.server;
 
 import application.ApplicationFacade;
 import application.model.messages.MessageVO;
-import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class MessageProcessor implements Runnable {
 

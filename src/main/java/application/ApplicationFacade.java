@@ -1,6 +1,10 @@
 package application;
 
 import application.controller.*;
+import application.controller.messages.ClearMessagesCommand;
+import application.controller.messages.ReceiveMessageCommand;
+import application.controller.messages.SendMessageCommand;
+import application.controller.server.StartServerCommand;
 import org.puremvc.java.multicore.interfaces.IFacade;
 import org.puremvc.java.multicore.patterns.facade.Facade;
 

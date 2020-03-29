@@ -1,4 +1,4 @@
-package application.controller;
+package application.controller.messages;
 
 import application.ApplicationFacade;
 import application.model.client.ClientProxy;

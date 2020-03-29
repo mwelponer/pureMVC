@@ -1,4 +1,4 @@
-package application.controller;
+package application.controller.server;
 
 import application.ApplicationFacade;
 import application.model.server.ServerPreferencesProxy;
