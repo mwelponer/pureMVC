@@ -56,6 +56,10 @@ public class MainWindow extends JFrame {
         url_textField.setText(url);
     }
 
+    public void changeMethod(int methodIndex){
+	    method_comboBox.setSelectedIndex(methodIndex);
+    }
+
     private void clear_ButtonActionPerformed(ActionEvent e) {
         System.out.println("  MainWindow: clear_ButtonActionPerformed()");
 

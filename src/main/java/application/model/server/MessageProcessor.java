@@ -57,7 +57,7 @@ public class MessageProcessor implements Runnable {
                 decPayload = decPayload.replace("%5B", "["); // %5B -> [
                 decPayload = decPayload.replace("%5D", "]"); // %5D -> ]
 
-                System.out.println("decPayload: '" + decPayload + "'");
+                //System.out.println("decPayload: '" + decPayload + "'");
 
                 // remove all that is not json
                 if(decPayload.contains("{") && decPayload.contains("}")) {

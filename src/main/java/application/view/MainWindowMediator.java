@@ -72,6 +72,7 @@ public class MainWindowMediator extends Mediator implements IMediator {
         	case ApplicationFacade.SHOW_MAIN_WINDOW:
 				mainWindow.setPreferredSize(new Dimension(650, 500));
 				mainWindow.pack();
+				mainWindow.changeMethod(2); // initial is POST
 				mainWindow.setVisible(true);
         		break;
 
