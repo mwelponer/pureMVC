@@ -12,6 +12,8 @@ import org.puremvc.java.multicore.patterns.mediator.Mediator;
 
 import application.ApplicationFacade;
 
+import javax.swing.*;
+
 
 public class MainWindowMediator extends Mediator implements IMediator {
 
@@ -51,6 +53,7 @@ public class MainWindowMediator extends Mediator implements IMediator {
             ApplicationFacade.MESSAGE_SENT,
 			ApplicationFacade.UPDATE_CONSOLE,
 			ApplicationFacade.LOAD_MESSAGES,
+			ApplicationFacade.CHANGE_SERVER_PORT,
             ApplicationFacade.SHUTDOWN
 		};
 		
@@ -107,4 +110,36 @@ public class MainWindowMediator extends Mediator implements IMediator {
             
     	//super.handleNotification(notification);
     }
+
+    public void changeServerPort() {
+		System.out.println("  MainWindowMediator: changeServerPort()");
+
+		String m = JOptionPane.showInputDialog(mainWindow, "Enter the Server port",
+				"Server Configuration", JOptionPane.OK_CANCEL_OPTION);
+
+		int port = -1;
+		if (m == null) { // cancel is pressed
+			//System.out.println("cancel button");
+			return;
+		} else if (m.isEmpty()) { // empty
+			//mainWindow.getContentPane().setVisible(false);
+			//mainWindow.dispose();
+			changeServerPort();
+		} else if (!m.matches("(0|[1-9]\\d*)")) { // not integer
+			JOptionPane.showMessageDialog(null,
+					"Enter a valid integer value.", "Alert", JOptionPane.WARNING_MESSAGE);
+
+			changeServerPort();
+		} else {
+			port = Integer.parseInt(m);
+
+			if (port > 49151 || port < 1024) { // port not in range 1024-49151
+				JOptionPane.showMessageDialog(null,
+						"Enter a valid user port (1024-49151).", "Alert", JOptionPane.WARNING_MESSAGE);
+				changeServerPort();
+			}
+
+			sendNotification(ApplicationFacade.CHANGE_SERVER_PORT, port);
+		}
+	}
 }

@@ -15,10 +15,10 @@ public class StartServerCommand extends SimpleCommand implements ICommand {
 
         ServerPreferencesProxy serverPreferencesProxy = (ServerPreferencesProxy)notification.getBody();
 
-        ServerProxy server = new ServerProxy(serverPreferencesProxy.getServerPrefs());
-        getFacade().registerProxy(server);
+        ServerProxy serverProxy = new ServerProxy(serverPreferencesProxy.getServerPrefs());
+        getFacade().registerProxy(serverProxy);
 
-        new Thread(server).start();
+        new Thread(serverProxy).start();
         sendNotification(ApplicationFacade.SERVER_STARTED);
     }
 }

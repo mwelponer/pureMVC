@@ -54,6 +54,7 @@ public class MessageProcessor implements Runnable {
                 String decPayload = trimmedStringBuffer.replace("%22", "\"");
                 decPayload = decPayload.replace("%7B", "{");
                 decPayload = decPayload.replace("%7D", "}");
+                System.out.println("decPayload: '" + decPayload + "'");
                 // remove all that is not json
                 decPayload = decPayload.substring(decPayload.indexOf('{')+1);
                 decPayload = decPayload.substring(0, decPayload.indexOf('}'));

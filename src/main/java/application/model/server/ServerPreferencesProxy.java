@@ -66,7 +66,7 @@ public class ServerPreferencesProxy extends Proxy implements IProxy {
         serverPrefs.setServerPort(port);
     }
 
-    private void savePreferences(){
+    public void savePreferences(){
         System.out.println("  ServerPreferencesProxy: savePreferences()");
         try(FileWriter writer = new FileWriter(prefFile)) {
             gson.toJson(serverPrefs, writer);

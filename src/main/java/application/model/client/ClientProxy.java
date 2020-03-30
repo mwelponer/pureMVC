@@ -7,16 +7,19 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.puremvc.java.multicore.interfaces.IProxy;
 import org.puremvc.java.multicore.patterns.proxy.Proxy;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -95,35 +98,42 @@ public class ClientProxy extends Proxy implements IProxy {
         connection.setDoInput(true);
         connection.setDoOutput(true);
 
-        //Send request
-        DataOutputStream wr = new DataOutputStream (connection.getOutputStream());
-        System.out.println("  ..payload: " + payload);
-        wr.writeBytes(payload);
-        wr.flush();
-        wr.close();
-
-        //Get Response from the server (read response into payload)
-        InputStream is = connection.getInputStream();
-        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-        String line, statusCode, contentType;
         StringBuffer response = new StringBuffer();
-        List<String>responseL = new ArrayList<>();
 
-        while((line = rd.readLine()) != null) {
+        //Send request
+        try {
+            DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+            System.out.println("  ..payload: " + payload);
+            wr.writeBytes(payload);
+            wr.flush();
+            wr.close();
+
+            //Get Response from the server (read response into payload)
+            InputStream is = connection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            String line, statusCode, contentType;
+            List<String>responseL = new ArrayList<>();
+
+            while((line = rd.readLine()) != null) {
 //            response.append(line);
 //            response.append('\r');
-            responseL.add(line);
-        }
-        
-        System.out.println("  --- HEADER ---\n  " + responseL.get(0) + "\n  " + responseL.get(1));
+                responseL.add(line);
+            }
 
-        //TODO: send response to the outputconsole
-        response.append(resultdate + " - server reply: " + responseL.get(0));
+            System.out.println("  --- HEADER ---\n  " + responseL.get(0) + "\n  " + responseL.get(1));
+
+            //TODO: send response to the outputconsole
+            response.append(resultdate + " - server reply: " + responseL.get(0));
 //        ApplicationFacade.getInstance().sendNotification(
 //                ApplicationFacade.UPDATE_CONSOLE, resultdate + " - server reply: HTTP/1.1 200 OK");
 
 
-        rd.close();
+            rd.close();
+
+        }catch(ConnectException e){
+            JOptionPane.showMessageDialog(null,
+                    "Connection refused. Verify the server is up and running.");
+        }
 
         return response.toString();
     }
@@ -169,6 +179,9 @@ public class ClientProxy extends Proxy implements IProxy {
 //                String result = EntityUtils.toString(entity);
 //                System.out.println(result);
 //            }
+        }catch(HttpHostConnectException e){
+            JOptionPane.showMessageDialog(null,
+                    "Connection refused. Verify the server is up and running.");
         }
 
         return response;

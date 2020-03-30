@@ -40,11 +40,6 @@ public class MainWindow extends JFrame {
         response_textArea.setText("");
     }
 
-	private void menuItem3ActionPerformed(ActionEvent e) {
-        System.out.println("  MainWindow: menuItem3ActionPerformed()");
-		mediator.sendNotification(ApplicationFacade.SHUTDOWN);
-	}
-
     private void send_ButtonActionPerformed(ActionEvent e) {
         System.out.println("  MainWindow: send_ButtonActionPerformed()");
 
@@ -57,37 +52,39 @@ public class MainWindow extends JFrame {
         mediator.sendNotification(ApplicationFacade.SEND_MESSAGE, message);
 	}
 
-    private void menuItem1ActionPerformed(ActionEvent e) {
-        // TODO add your code here
-    }
-
-    private void addButtonActionPerformed(ActionEvent e) {
-        // TODO add your code here
-    }
-
-    private void sendButtonActionPerformed(ActionEvent e) {
-        // TODO add your code here
-    }
-
     private void clear_ButtonActionPerformed(ActionEvent e) {
         System.out.println("  MainWindow: clear_ButtonActionPerformed()");
 
         mediator.sendNotification(ApplicationFacade.CLEAR_MESSAGES);
     }
 
-    private void clear_Button2ActionPerformed(ActionEvent e) {
-        // TODO add your code here
+    private void send_menuItemActionPerformed(ActionEvent e) {
+        send_ButtonActionPerformed(e);
+    }
+
+    private void clear_menuItemActionPerformed(ActionEvent e) {
+        clearOutputConsole();
+    }
+
+    private void exit_menuItemActionPerformed(ActionEvent e) {
+        mediator.sendNotification(ApplicationFacade.SHUTDOWN);
+    }
+
+    private void portChange_menuItemActionPerformed(ActionEvent e) {
+	    mediator.changeServerPort();
     }
 
 	private void initComponents() {
 		System.out.println("  MainWindow: initComponents()");
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner non-commercial license
-        menuBar1 = new JMenuBar();
-        menu1 = new JMenu();
-        menuItem1 = new JMenuItem();
-        menuItem2 = new JMenuItem();
-        menuItem3 = new JMenuItem();
+        menuBar = new JMenuBar();
+        file_menu = new JMenu();
+        send_menuItem = new JMenuItem();
+        clear_menuItem = new JMenuItem();
+        exit_menuItem = new JMenuItem();
+        edit_menu = new JMenu();
+        portChange_menuItem = new JMenuItem();
         dialogPane = new JPanel();
         contentPanel = new JPanel();
         splitPane1 = new JSplitPane();
@@ -106,31 +103,43 @@ public class MainWindow extends JFrame {
         Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
-        //======== menuBar1 ========
+        //======== menuBar ========
         {
 
-            //======== menu1 ========
+            //======== file_menu ========
             {
-                menu1.setText("File");
+                file_menu.setText("File");
 
-                //---- menuItem1 ----
-                menuItem1.setText("Add");
-                menuItem1.addActionListener(e -> menuItem1ActionPerformed(e));
-                menu1.add(menuItem1);
+                //---- send_menuItem ----
+                send_menuItem.setText("Send Message");
+                send_menuItem.addActionListener(e -> send_menuItemActionPerformed(e));
+                file_menu.add(send_menuItem);
 
-                //---- menuItem2 ----
-                menuItem2.setText("Cancel");
-                menu1.add(menuItem2);
+                //---- clear_menuItem ----
+                clear_menuItem.setText("Clear Console");
+                clear_menuItem.addActionListener(e -> clear_menuItemActionPerformed(e));
+                file_menu.add(clear_menuItem);
 
-                //---- menuItem3 ----
-                menuItem3.setText("Exit");
-                menuItem3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.ALT_MASK));
-                menuItem3.addActionListener(e -> menuItem3ActionPerformed(e));
-                menu1.add(menuItem3);
+                //---- exit_menuItem ----
+                exit_menuItem.setText("Exit");
+                exit_menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.ALT_MASK));
+                exit_menuItem.addActionListener(e -> exit_menuItemActionPerformed(e));
+                file_menu.add(exit_menuItem);
             }
-            menuBar1.add(menu1);
+            menuBar.add(file_menu);
+
+            //======== edit_menu ========
+            {
+                edit_menu.setText("Edit");
+
+                //---- portChange_menuItem ----
+                portChange_menuItem.setText("Change Server port");
+                portChange_menuItem.addActionListener(e -> portChange_menuItemActionPerformed(e));
+                edit_menu.add(portChange_menuItem);
+            }
+            menuBar.add(edit_menu);
         }
-        setJMenuBar(menuBar1);
+        setJMenuBar(menuBar);
 
         //======== dialogPane ========
         {
@@ -226,11 +235,13 @@ public class MainWindow extends JFrame {
 
 	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner non-commercial license
-    private JMenuBar menuBar1;
-    private JMenu menu1;
-    private JMenuItem menuItem1;
-    private JMenuItem menuItem2;
-    private JMenuItem menuItem3;
+    private JMenuBar menuBar;
+    private JMenu file_menu;
+    private JMenuItem send_menuItem;
+    private JMenuItem clear_menuItem;
+    private JMenuItem exit_menuItem;
+    private JMenu edit_menu;
+    private JMenuItem portChange_menuItem;
     private JPanel dialogPane;
     private JPanel contentPanel;
     private JSplitPane splitPane1;

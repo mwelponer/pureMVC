@@ -4,6 +4,7 @@ import application.controller.*;
 import application.controller.messages.ClearMessagesCommand;
 import application.controller.messages.ReceiveMessageCommand;
 import application.controller.messages.SendMessageCommand;
+import application.controller.server.ChangeServerPortCommand;
 import application.controller.server.StartServerCommand;
 import org.puremvc.java.multicore.interfaces.IFacade;
 import org.puremvc.java.multicore.patterns.facade.Facade;
@@ -29,6 +30,7 @@ public class ApplicationFacade extends Facade implements IFacade {
 	public static final String UPDATE_CONSOLE = "UpdateConsole";
 	public static final String LOAD_MESSAGES = "LoadMessages";
 	public static final String CLEAR_MESSAGES = "ClearMessages";
+	public static final String CHANGE_SERVER_PORT = "ChangeServerPort";
 
 	public static final String SHOW_MAIN_WINDOW = "show_main_window";
 	public static final String SHUTDOWN = "shutdown";
@@ -56,11 +58,11 @@ public class ApplicationFacade extends Facade implements IFacade {
 		super.initializeController();
 		System.out.println("  ApplicationFacade: initializeController()");
 		registerCommand(STARTUP, new StartupCommand());
-//		registerCommand(ADD_ITEM, new AddItemCommand());
 		registerCommand(START_SERVER, new StartServerCommand());
 		registerCommand(SEND_MESSAGE, new SendMessageCommand());
 		registerCommand(RECEIVE_MESSAGE, new ReceiveMessageCommand());
 		registerCommand(CLEAR_MESSAGES, new ClearMessagesCommand());
+		registerCommand(CHANGE_SERVER_PORT, new ChangeServerPortCommand());
 	}
 	
 	public void startup() {

@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "6.0.6.4.204" Java: "11.0.4" encoding: "UTF-8"
+JFDML JFormDesigner: "6.0.6.4.204" Java: "11.0.6" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -89,24 +89,34 @@ new FormModel {
 				"value": "Center"
 			} )
 			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
-				name: "menuBar1"
+				name: "menuBar"
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
-					name: "menu1"
+					name: "file_menu"
 					"text": "File"
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuItem1"
-						"text": "Add"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuItem1ActionPerformed", true ) )
+						name: "send_menuItem"
+						"text": "Send Message"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "send_menuItemActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuItem2"
-						"text": "Cancel"
+						name: "clear_menuItem"
+						"text": "Clear Console"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "clear_menuItemActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuItem3"
+						name: "exit_menuItem"
 						"text": "Exit"
 						"accelerator": static javax.swing.KeyStroke getKeyStroke( 81, 520, false )
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuItem3ActionPerformed", true ) )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "exit_menuItemActionPerformed", true ) )
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "edit_menu"
+					"text": "Edit"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "portChange_menuItem"
+						"text": "Change Server port"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "portChange_menuItemActionPerformed", true ) )
 					} )
 				} )
 			}
