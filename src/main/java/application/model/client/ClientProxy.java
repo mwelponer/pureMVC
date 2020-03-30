@@ -153,9 +153,11 @@ public class ClientProxy extends Proxy implements IProxy {
 
         // % encripts special chars
         // http://localhost:9000?%7BcoordX=0.9&coordY=0.1%7D
-        String encPayload = payload.replace("\"", "%22");
-        encPayload = encPayload.replace("{", "%7B");
-        encPayload = encPayload.replace("}", "%7D");
+        String encPayload = payload.replace("\"", "%22"); // " -> %22
+        encPayload = encPayload.replace("{", "%7B"); // { -> %7B
+        encPayload = encPayload.replace("}", "%7D"); // } -> %7D
+        encPayload = encPayload.replace("[", "%5B"); // [ -> %5B
+        encPayload = encPayload.replace("]", "%5D"); // ] -> %5D
 
         StringBuilder stringBuilder = new StringBuilder(targetURL.replace(" ", ""));
         stringBuilder.append("?json=");

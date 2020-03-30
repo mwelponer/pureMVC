@@ -51,16 +51,22 @@ public class MessageProcessor implements Runnable {
             JSONObject jsonObject = null;
             if(trimmedStringBuffer.startsWith("GET")){
                 // percent decript chars
-                String decPayload = trimmedStringBuffer.replace("%22", "\"");
-                decPayload = decPayload.replace("%7B", "{");
-                decPayload = decPayload.replace("%7D", "}");
+                String decPayload = trimmedStringBuffer.replace("%22", "\""); // %22 -> "
+                decPayload = decPayload.replace("%7B", "{"); // %7B -> {
+                decPayload = decPayload.replace("%7D", "}"); // %7D -> }
+                decPayload = decPayload.replace("%5B", "["); // %5B -> [
+                decPayload = decPayload.replace("%5D", "]"); // %5D -> ]
+
                 System.out.println("decPayload: '" + decPayload + "'");
+
                 // remove all that is not json
-                decPayload = decPayload.substring(decPayload.indexOf('{')+1);
-                decPayload = decPayload.substring(0, decPayload.indexOf('}'));
-                //add curly brackets again
-                decPayload = "{" + decPayload + "}";
-                jsonObject = new JSONObject(decPayload);
+                if(decPayload.contains("{") && decPayload.contains("}")) {
+                    decPayload = decPayload.substring(decPayload.indexOf('{') + 1);
+                    decPayload = decPayload.substring(0, decPayload.indexOf('}'));
+                    //add curly brackets again
+                    decPayload = "{" + decPayload + "}";
+                    jsonObject = new JSONObject(decPayload);
+                }
 
             }else if (trimmedStringBuffer.startsWith("POST")){
                 StringBuilder payload = new StringBuilder();
