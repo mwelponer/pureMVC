@@ -52,6 +52,10 @@ public class MainWindow extends JFrame {
         mediator.sendNotification(ApplicationFacade.SEND_MESSAGE, message);
 	}
 
+	public void changeUrl(String url){
+        url_textField.setText(url);
+    }
+
     private void clear_ButtonActionPerformed(ActionEvent e) {
         System.out.println("  MainWindow: clear_ButtonActionPerformed()");
 

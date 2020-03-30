@@ -31,6 +31,6 @@ public class ChangeServerPortCommand extends SimpleCommand implements ICommand {
         getFacade().registerProxy(serverProxy);
 
         new Thread(serverProxy).start();
-        sendNotification(ApplicationFacade.SERVER_STARTED);
+        //sendNotification(ApplicationFacade.SERVER_STARTED, port);
     }
 }

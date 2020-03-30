@@ -15,7 +15,7 @@ import java.io.IOException;
 public class ServerPreferencesProxy extends Proxy implements IProxy {
 
     public static final String NAME = "serverPreferencesProxy";
-    public static final int SERVER_PORT = 9000;
+    public static final int INITIAL_SERVER_PORT = 9000;
 
     // Preference file
     private File prefFile = new File(System.getProperty("user.home"), ".geobly_srv_prefs");
@@ -57,7 +57,7 @@ public class ServerPreferencesProxy extends Proxy implements IProxy {
         serverPrefs = new ServerPreferencesVO();
 //        System.out.println("ServerPreferencesProxy: set server port " + SERVER_PORT);
         // user ports 1024-49151
-        this.setPort(SERVER_PORT);
+        this.setPort(INITIAL_SERVER_PORT);
 //        System.out.println("ServerPreferencesProxy: save server preferences");
         savePreferences();
     }

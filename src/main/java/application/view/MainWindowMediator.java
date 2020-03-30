@@ -6,6 +6,7 @@ import java.util.List;
 
 import application.model.messages.MessageProxy;
 import application.model.messages.MessageVO;
+import org.json.JSONObject;
 import org.puremvc.java.multicore.interfaces.IMediator;
 import org.puremvc.java.multicore.interfaces.INotification;
 import org.puremvc.java.multicore.patterns.mediator.Mediator;
@@ -53,6 +54,7 @@ public class MainWindowMediator extends Mediator implements IMediator {
             ApplicationFacade.MESSAGE_SENT,
 			ApplicationFacade.UPDATE_CONSOLE,
 			ApplicationFacade.LOAD_MESSAGES,
+			ApplicationFacade.SERVER_STARTED,
 			ApplicationFacade.CHANGE_SERVER_PORT,
             ApplicationFacade.SHUTDOWN
 		};
@@ -74,6 +76,8 @@ public class MainWindowMediator extends Mediator implements IMediator {
         		break;
 
 			case ApplicationFacade.SERVER_STARTED:
+				int port = (int)notification.getBody();
+				mainWindow.changeUrl(" http://localhost:" + port);
 				break;
 
 			case ApplicationFacade.MESSAGE_SENT:
@@ -91,10 +95,16 @@ public class MainWindowMediator extends Mediator implements IMediator {
 				for(MessageVO messageVO : tail){
 					Date resultdate = new Date(messageVO.getTimestamp());
 					//mainWindow.writeToOutputConsole(resultdate.toString());
-					String coords = resultdate.toString() + " - received new coordinates: (" +
-							messageVO.getJsonObject().getFloat("coordX") + ", " +
-							messageVO.getJsonObject().getFloat("coordY") + ")";
-					mainWindow.writeToOutputConsole(coords);
+
+					if(messageVO.getJsonObject().has("coordX") && messageVO.getJsonObject().has("coordY")){
+						String coords = resultdate.toString() + " - received new coordinates: (" +
+								messageVO.getJsonObject().getFloat("coordX") + ", " +
+								messageVO.getJsonObject().getFloat("coordY") + ")";
+						mainWindow.writeToOutputConsole(coords);
+					}else{
+						mainWindow.writeToOutputConsole(resultdate.toString() + " - json object received '"
+								+ messageVO.getJsonObject().toString() + "'");
+					}
 				}
 
 				break;
@@ -115,7 +125,7 @@ public class MainWindowMediator extends Mediator implements IMediator {
 		System.out.println("  MainWindowMediator: changeServerPort()");
 
 		String m = JOptionPane.showInputDialog(mainWindow, "Enter the Server port",
-				"Server Configuration", JOptionPane.OK_CANCEL_OPTION);
+				"Server Configuration", JOptionPane.QUESTION_MESSAGE);
 
 		int port = -1;
 		if (m == null) { // cancel is pressed

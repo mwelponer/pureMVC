@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -132,7 +133,12 @@ public class ClientProxy extends Proxy implements IProxy {
 
         }catch(ConnectException e){
             JOptionPane.showMessageDialog(null,
-                    "Connection refused. Verify the server is up and running.");
+                    "Connection refused. Verify the server is up and running.",
+                    "Warning", JOptionPane.ERROR_MESSAGE);
+        }catch(UnknownHostException e){
+            JOptionPane.showMessageDialog(null,
+                    "Unknown host. Verify the server url you are trying to connect to is correct.",
+                    "Warning", JOptionPane.ERROR_MESSAGE);
         }
 
         return response.toString();
@@ -181,7 +187,12 @@ public class ClientProxy extends Proxy implements IProxy {
 //            }
         }catch(HttpHostConnectException e){
             JOptionPane.showMessageDialog(null,
-                    "Connection refused. Verify the server is up and running.");
+                    "Connection refused. Verify the server is up and running.",
+                    "Warning", JOptionPane.ERROR_MESSAGE);
+        }catch(UnknownHostException e){
+            JOptionPane.showMessageDialog(null,
+                    "Unknown host. Verify the server url you are trying to connect to is correct.",
+                    "Warning", JOptionPane.ERROR_MESSAGE);
         }
 
         return response;
