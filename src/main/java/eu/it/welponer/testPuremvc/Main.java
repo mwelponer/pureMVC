@@ -15,7 +15,7 @@ public class Main {
 		try {
 			// Set cross-platform Java L&F (also called "Metal")
 			UIManager.setLookAndFeel(
-					UIManager.getCrossPlatformLookAndFeelClassName());
+					UIManager.getSystemLookAndFeelClassName());
 		}
 		catch (UnsupportedLookAndFeelException e) {
 			// handle exception
