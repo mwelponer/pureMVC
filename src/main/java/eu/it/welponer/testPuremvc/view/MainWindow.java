@@ -2,16 +2,16 @@
  * Created by JFormDesigner on Thu Jul 20 12:54:15 CEST 2017
  */
 
-package application.view;
+package eu.it.welponer.testPuremvc.view;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-import application.ApplicationFacade;
-import application.model.messages.MessageVO;
-import application.model.client.RequestMethod;
+import eu.it.welponer.testPuremvc.ApplicationFacade;
+import eu.it.welponer.testPuremvc.model.messages.MessageVO;
+import eu.it.welponer.testPuremvc.model.client.RequestMethod;
 import org.json.JSONObject;
 
 /**

@@ -1,11 +1,11 @@
-package application;
+package eu.it.welponer.testPuremvc;
 
-import application.controller.*;
-import application.controller.messages.ClearMessagesCommand;
-import application.controller.messages.ReceiveMessageCommand;
-import application.controller.messages.SendMessageCommand;
-import application.controller.server.ChangeServerPortCommand;
-import application.controller.server.StartServerCommand;
+import eu.it.welponer.testPuremvc.controller.StartupCommand;
+import eu.it.welponer.testPuremvc.controller.messages.ClearMessagesCommand;
+import eu.it.welponer.testPuremvc.controller.messages.ReceiveMessageCommand;
+import eu.it.welponer.testPuremvc.controller.messages.SendMessageCommand;
+import eu.it.welponer.testPuremvc.controller.server.ChangeServerPortCommand;
+import eu.it.welponer.testPuremvc.controller.server.StartServerCommand;
 import org.puremvc.java.multicore.interfaces.IFacade;
 import org.puremvc.java.multicore.patterns.facade.Facade;
 

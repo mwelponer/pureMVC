@@ -1,7 +1,7 @@
-package application.model.server;
+package eu.it.welponer.testPuremvc.model.server;
 
-import application.ApplicationFacade;
-import application.model.messages.MessageVO;
+import eu.it.welponer.testPuremvc.ApplicationFacade;
+import eu.it.welponer.testPuremvc.model.messages.MessageVO;
 import org.json.JSONObject;
 import java.io.*;
 import java.net.Socket;

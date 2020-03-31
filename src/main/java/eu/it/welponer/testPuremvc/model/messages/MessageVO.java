@@ -1,6 +1,6 @@
-package application.model.messages;
+package eu.it.welponer.testPuremvc.model.messages;
 
-import application.model.client.RequestMethod;
+import eu.it.welponer.testPuremvc.model.client.RequestMethod;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;

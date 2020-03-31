@@ -1,17 +1,16 @@
-package application.view;
+package eu.it.welponer.testPuremvc.view;
 
 import java.awt.Dimension;
 import java.util.Date;
 import java.util.List;
 
-import application.model.messages.MessageProxy;
-import application.model.messages.MessageVO;
-import org.json.JSONObject;
+import eu.it.welponer.testPuremvc.model.messages.MessageProxy;
+import eu.it.welponer.testPuremvc.model.messages.MessageVO;
 import org.puremvc.java.multicore.interfaces.IMediator;
 import org.puremvc.java.multicore.interfaces.INotification;
 import org.puremvc.java.multicore.patterns.mediator.Mediator;
 
-import application.ApplicationFacade;
+import eu.it.welponer.testPuremvc.ApplicationFacade;
 
 import javax.swing.*;
 

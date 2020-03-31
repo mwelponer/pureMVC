@@ -1,4 +1,4 @@
-package application.model.client;
+package eu.it.welponer.testPuremvc.model.client;
 
 import lombok.Getter;
 

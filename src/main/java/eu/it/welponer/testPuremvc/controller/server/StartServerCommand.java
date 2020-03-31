@@ -1,8 +1,8 @@
-package application.controller.server;
+package eu.it.welponer.testPuremvc.controller.server;
 
-import application.ApplicationFacade;
-import application.model.server.ServerPreferencesProxy;
-import application.model.server.ServerProxy;
+import eu.it.welponer.testPuremvc.ApplicationFacade;
+import eu.it.welponer.testPuremvc.model.server.ServerPreferencesProxy;
+import eu.it.welponer.testPuremvc.model.server.ServerProxy;
 import org.puremvc.java.multicore.interfaces.ICommand;
 import org.puremvc.java.multicore.interfaces.INotification;
 import org.puremvc.java.multicore.patterns.command.SimpleCommand;

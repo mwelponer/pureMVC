@@ -1,4 +1,4 @@
-package application.model.messages;
+package eu.it.welponer.testPuremvc.model.messages;
 
 import org.puremvc.java.multicore.interfaces.IProxy;
 import org.puremvc.java.multicore.patterns.proxy.Proxy;

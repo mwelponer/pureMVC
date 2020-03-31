@@ -1,7 +1,6 @@
-package application.model.client;
+package eu.it.welponer.testPuremvc.model.client;
 
-import application.ApplicationFacade;
-import application.model.messages.MessageVO;
+import eu.it.welponer.testPuremvc.model.messages.MessageVO;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -10,7 +9,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.puremvc.java.multicore.interfaces.IProxy;
 import org.puremvc.java.multicore.patterns.proxy.Proxy;
 
@@ -89,7 +87,7 @@ public class ClientProxy extends Proxy implements IProxy {
 
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Accept-Charset", CHARSET);
-        connection.setRequestProperty("Content-Type", "application/json;charset=" + CHARSET);
+        connection.setRequestProperty("Content-Type", "eu/it/welponer/testPuremvc/json;charset=" + CHARSET);
         connection.setRequestProperty("Accept", "*/*");
         connection.setRequestProperty("User-Agent", USER_AGENT);
         connection.setRequestProperty("Content-Language", "en-US");

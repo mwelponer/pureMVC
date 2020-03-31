@@ -1,4 +1,4 @@
-package application.model.server;
+package eu.it.welponer.testPuremvc.model.server;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

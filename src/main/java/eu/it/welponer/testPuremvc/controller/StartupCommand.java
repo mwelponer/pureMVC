@@ -1,14 +1,13 @@
-package application.controller;
+package eu.it.welponer.testPuremvc.controller;
 
-import application.model.client.ClientProxy;
-import application.model.messages.MessageProxy;
-import application.model.server.ServerPreferencesProxy;
+import eu.it.welponer.testPuremvc.model.client.ClientProxy;
+import eu.it.welponer.testPuremvc.model.messages.MessageProxy;
+import eu.it.welponer.testPuremvc.model.server.ServerPreferencesProxy;
+import eu.it.welponer.testPuremvc.ApplicationFacade;
+import eu.it.welponer.testPuremvc.view.MainWindowMediator;
 import org.puremvc.java.multicore.interfaces.ICommand;
 import org.puremvc.java.multicore.interfaces.INotification;
 import org.puremvc.java.multicore.patterns.command.SimpleCommand;
-
-import application.ApplicationFacade;
-import application.view.MainWindowMediator;
 
 public class StartupCommand extends SimpleCommand implements ICommand {
 	

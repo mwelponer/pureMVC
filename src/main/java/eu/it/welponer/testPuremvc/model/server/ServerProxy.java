@@ -1,16 +1,11 @@
-package application.model.server;
+package eu.it.welponer.testPuremvc.model.server;
 
-import application.ApplicationFacade;
-import application.model.client.RequestMethod;
-import application.model.messages.MessageVO;
 import org.puremvc.java.multicore.interfaces.IProxy;
 import org.puremvc.java.multicore.patterns.proxy.Proxy;
 
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.URL;
 import java.util.Date;
 
 public class ServerProxy extends Proxy implements IProxy, Runnable {
