@@ -119,6 +119,7 @@ public class MainWindow extends JFrame {
 
         //======== menuBar ========
         {
+            menuBar.setBorder(null);
 
             //======== file_menu ========
             {
@@ -158,34 +159,37 @@ public class MainWindow extends JFrame {
         //======== dialogPane ========
         {
             dialogPane.setMinimumSize(new Dimension(265, 124));
-            dialogPane.setBorder(new EmptyBorder(6, 6, 0, 6));
+            dialogPane.setBorder(null);
             dialogPane.setLayout(new BorderLayout());
 
             //======== contentPanel ========
             {
-                contentPanel.setBorder(null);
+                contentPanel.setBorder(BorderFactory.createEmptyBorder());
                 contentPanel.setLayout(new BorderLayout());
 
                 //======== splitPane1 ========
                 {
                     splitPane1.setOrientation(JSplitPane.VERTICAL_SPLIT);
                     splitPane1.setDividerLocation(90);
+                    splitPane1.setBorder(null);
 
                     //======== scrollPane2 ========
                     {
+                        scrollPane2.setViewportBorder(null);
 
                         //---- input_textArea ----
-                        input_textArea.setMargin(new Insets(0, 3, 0, 0));
                         input_textArea.setText("{\"coordX\": 0.111,\"coordY\": 6.666}");
+                        input_textArea.setMargin(new Insets(2, 3, 0, 0));
                         scrollPane2.setViewportView(input_textArea);
                     }
                     splitPane1.setTopComponent(scrollPane2);
 
                     //======== scrollPane1 ========
                     {
+                        scrollPane1.setViewportBorder(null);
 
                         //---- response_textArea ----
-                        response_textArea.setMargin(new Insets(0, 3, 0, 0));
+                        response_textArea.setMargin(new Insets(2, 3, 0, 0));
                         scrollPane1.setViewportView(response_textArea);
                     }
                     splitPane1.setBottomComponent(scrollPane1);
@@ -196,7 +200,7 @@ public class MainWindow extends JFrame {
 
             //======== buttonBar ========
             {
-                buttonBar.setBorder(null);
+                buttonBar.setBorder(new EmptyBorder(2, 0, 2, 0));
                 buttonBar.setLayout(new GridLayout());
 
                 //======== panel1 ========
@@ -209,33 +213,35 @@ public class MainWindow extends JFrame {
                         "HEAD",
                         "POST"
                     }));
-                    method_comboBox.setPreferredSize(new Dimension(93, 33));
-                    method_comboBox.setMinimumSize(new Dimension(99, 33));
-                    method_comboBox.setMaximumSize(new Dimension(32767, 33));
-                    method_comboBox.setBorder(null);
+                    method_comboBox.setPreferredSize(new Dimension(93, 29));
+                    method_comboBox.setMinimumSize(new Dimension(99, 29));
+                    method_comboBox.setMaximumSize(new Dimension(32767, 29));
+                    method_comboBox.setBorder(UIManager.getBorder("List.border"));
+                    method_comboBox.setAlignmentY(0.51F);
                     panel1.add(method_comboBox);
 
                     //---- url_textField ----
-                    url_textField.setPreferredSize(new Dimension(30, 30));
-                    url_textField.setMargin(new Insets(0, 0, 0, 0));
+                    url_textField.setPreferredSize(new Dimension(30, 29));
+                    url_textField.setMargin(new Insets(0, 20, 0, 0));
                     url_textField.setText(" http://localhost:9000");
-                    url_textField.setMaximumSize(new Dimension(2147483647, 30));
+                    url_textField.setMaximumSize(new Dimension(2147483647, 29));
                     url_textField.setFocusCycleRoot(true);
+                    url_textField.setScrollOffset(1);
+                    url_textField.setBorder(new LineBorder(Color.lightGray));
+                    url_textField.setMinimumSize(new Dimension(64, 29));
                     panel1.add(url_textField);
 
                     //---- clear_Button ----
                     clear_Button.setText("Clear");
-                    clear_Button.setMinimumSize(new Dimension(78, 33));
-                    clear_Button.setMaximumSize(new Dimension(78, 33));
-                    clear_Button.setPreferredSize(new Dimension(78, 33));
+                    clear_Button.setMinimumSize(new Dimension(50, 25));
+                    clear_Button.setMaximumSize(new Dimension(78, 50));
                     clear_Button.addActionListener(e -> clear_ButtonActionPerformed(e));
                     panel1.add(clear_Button);
 
                     //---- send_Button ----
                     send_Button.setText("Send");
-                    send_Button.setMinimumSize(new Dimension(78, 33));
-                    send_Button.setMaximumSize(new Dimension(78, 33));
-                    send_Button.setPreferredSize(new Dimension(78, 33));
+                    send_Button.setMaximumSize(new Dimension(78, 50));
+                    send_Button.setMinimumSize(new Dimension(78, 25));
                     send_Button.addActionListener(e -> send_ButtonActionPerformed(e));
                     panel1.add(send_Button);
                 }
@@ -285,6 +291,5 @@ public class MainWindow extends JFrame {
     private JButton send_Button;
     private JPanel Status_panel;
     private JLabel statusBar_label;
-
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

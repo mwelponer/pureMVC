@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "6.0.6.4.204" Java: "11.0.4" encoding: "UTF-8"
+JFDML JFormDesigner: "6.0.6.4.204" Java: "11.0.6" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -8,29 +8,32 @@ new FormModel {
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 				name: "dialogPane"
 				"minimumSize": new java.awt.Dimension( 265, 124 )
-				"border": new javax.swing.border.EmptyBorder( 6, 6, 0, 6 )
+				"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 					name: "contentPanel"
-					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"border": new javax.swing.border.EmptyBorder( 0, 0, 0, 0 )
 					add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
 						name: "splitPane1"
 						"orientation": 0
 						"dividerLocation": 90
+						"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 							name: "scrollPane2"
+							"viewportBorder": sfield com.jformdesigner.model.FormObject NULL_VALUE
 							add( new FormComponent( "javax.swing.JTextArea" ) {
 								name: "input_textArea"
-								"margin": new java.awt.Insets( 0, 3, 0, 0 )
 								"text": "{\"coordX\": 0.111,\"coordY\": 6.666}"
+								"margin": new java.awt.Insets( 2, 3, 0, 0 )
 							} )
 						}, new FormLayoutConstraints( class java.lang.String ) {
 							"value": "left"
 						} )
 						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 							name: "scrollPane1"
+							"viewportBorder": sfield com.jformdesigner.model.FormObject NULL_VALUE
 							add( new FormComponent( "javax.swing.JTextArea" ) {
 								name: "response_textArea"
-								"margin": new java.awt.Insets( 0, 3, 0, 0 )
+								"margin": new java.awt.Insets( 2, 3, 0, 0 )
 							} )
 						}, new FormLayoutConstraints( class java.lang.String ) {
 							"value": "right"
@@ -43,7 +46,7 @@ new FormModel {
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) ) {
 					name: "buttonBar"
-					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"border": new javax.swing.border.EmptyBorder( 2, 0, 2, 0 )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
 						name: "panel1"
 						add( new FormComponent( "javax.swing.JComboBox" ) {
@@ -54,33 +57,35 @@ new FormModel {
 								addElement( "HEAD" )
 								addElement( "POST" )
 							}
-							"preferredSize": new java.awt.Dimension( 93, 33 )
-							"minimumSize": new java.awt.Dimension( 99, 33 )
-							"maximumSize": new java.awt.Dimension( 32767, 33 )
-							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": new java.awt.Dimension( 93, 29 )
+							"minimumSize": new java.awt.Dimension( 99, 29 )
+							"maximumSize": new java.awt.Dimension( 32767, 29 )
+							"border": new com.jformdesigner.model.SwingBorder( "List.border" )
+							"alignmentY": 0.51f
 						} )
 						add( new FormComponent( "javax.swing.JTextField" ) {
 							name: "url_textField"
-							"preferredSize": new java.awt.Dimension( 30, 30 )
-							"margin": new java.awt.Insets( 0, 0, 0, 0 )
+							"preferredSize": new java.awt.Dimension( 30, 29 )
+							"margin": new java.awt.Insets( 0, 20, 0, 0 )
 							"text": " http://localhost:9000"
-							"maximumSize": new java.awt.Dimension( 2147483647, 30 )
+							"maximumSize": new java.awt.Dimension( 2147483647, 29 )
 							"focusCycleRoot": true
+							"scrollOffset": 1
+							"border": new javax.swing.border.LineBorder( sfield java.awt.Color lightGray, 1, false )
+							"minimumSize": new java.awt.Dimension( 64, 29 )
 						} )
 						add( new FormComponent( "javax.swing.JButton" ) {
 							name: "clear_Button"
 							"text": "Clear"
-							"minimumSize": &Dimension0 new java.awt.Dimension( 78, 33 )
-							"maximumSize": &Dimension1 new java.awt.Dimension( 78, 33 )
-							"preferredSize": &Dimension2 new java.awt.Dimension( 78, 33 )
+							"minimumSize": new java.awt.Dimension( 50, 25 )
+							"maximumSize": new java.awt.Dimension( 78, 50 )
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "clear_ButtonActionPerformed", true ) )
 						} )
 						add( new FormComponent( "javax.swing.JButton" ) {
 							name: "send_Button"
 							"text": "Send"
-							"minimumSize": #Dimension0
-							"maximumSize": #Dimension1
-							"preferredSize": #Dimension2
+							"maximumSize": new java.awt.Dimension( 78, 50 )
+							"minimumSize": new java.awt.Dimension( 78, 25 )
 							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "send_ButtonActionPerformed", true ) )
 						} )
 					} )
@@ -103,6 +108,7 @@ new FormModel {
 			} )
 			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
 				name: "menuBar"
+				"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "file_menu"
 					"text": "File"

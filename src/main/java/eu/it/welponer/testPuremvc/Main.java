@@ -1,5 +1,7 @@
 package eu.it.welponer.testPuremvc;
 
+import eu.it.welponer.testPuremvc.utils.OsUtils;
+
 import javax.swing.*;
 
 public class Main {
@@ -12,22 +14,21 @@ public class Main {
 		// TODO Auto-generated method stub
 		System.out.println("main()");
 
-		try {
-			// Set cross-platform Java L&F (also called "Metal")
-			UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName());
-		}
-		catch (UnsupportedLookAndFeelException e) {
-			// handle exception
-		}
-		catch (ClassNotFoundException e) {
-			// handle exception
-		}
-		catch (InstantiationException e) {
-			// handle exception
-		}
-		catch (IllegalAccessException e) {
-			// handle exception
+		if(OsUtils.isWindows()) {
+			try {
+				// Set cross-platform Java L&F (also called "Metal")
+				UIManager.setLookAndFeel(
+						//UIManager.getSystemLookAndFeelClassName());
+						"javax.swing.plaf.metal.MetalLookAndFeel");
+			} catch (UnsupportedLookAndFeelException e) {
+				// handle exception
+			} catch (ClassNotFoundException e) {
+				// handle exception
+			} catch (InstantiationException e) {
+				// handle exception
+			} catch (IllegalAccessException e) {
+				// handle exception
+			}
 		}
 
         Main m = new Main();
