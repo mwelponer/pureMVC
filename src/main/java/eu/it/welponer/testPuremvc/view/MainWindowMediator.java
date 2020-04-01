@@ -6,6 +6,7 @@ import java.util.List;
 
 import eu.it.welponer.testPuremvc.model.messages.MessageProxy;
 import eu.it.welponer.testPuremvc.model.messages.MessageVO;
+import eu.it.welponer.testPuremvc.model.server.ServerProxy;
 import lombok.Getter;
 import lombok.Setter;
 import org.puremvc.java.multicore.interfaces.IMediator;
@@ -22,10 +23,6 @@ public class MainWindowMediator extends Mediator implements IMediator {
 	public static final String NAME = "MainWindowMediator";
 	private static MainWindow mainWindow = null;
 	private MessageProxy messageProxy = null;
-
-	@Setter
-	@Getter
-	private boolean lock;
 	
 	public MainWindowMediator() {
 		super(NAME, null);
@@ -88,14 +85,6 @@ public class MainWindowMediator extends Mediator implements IMediator {
 				break;
 
 			case ApplicationFacade.MESSAGE_SENT:
-				while(lock){
-					//System.out.print(".");
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
 				mainWindow.writeToOutputConsole((String)notification.getBody());
 				break;
 
@@ -134,8 +123,6 @@ public class MainWindowMediator extends Mediator implements IMediator {
 								+ messageVO.getJsonObject().toString() + "'");
 					}
 				}
-				lock = false;
-
 				break;
 
 			case ApplicationFacade.SHUTDOWN:

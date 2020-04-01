@@ -1,6 +1,7 @@
 package eu.it.welponer.testPuremvc.model.client;
 
 import eu.it.welponer.testPuremvc.model.messages.MessageVO;
+import eu.it.welponer.testPuremvc.model.server.ServerProxy;
 import eu.it.welponer.testPuremvc.view.MainWindowMediator;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -67,8 +68,6 @@ public class ClientProxy extends Proxy implements IProxy {
 
         } catch (Exception e) {
             e.printStackTrace();
-            MainWindowMediator mainWindowMediator = (MainWindowMediator) getFacade().retrieveMediator(MainWindowMediator.NAME);
-            mainWindowMediator.setLock(false);
         } finally {
             if(connection != null) {
                 connection.disconnect();

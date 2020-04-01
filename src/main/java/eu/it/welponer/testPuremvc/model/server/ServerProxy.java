@@ -1,12 +1,13 @@
 package eu.it.welponer.testPuremvc.model.server;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.puremvc.java.multicore.interfaces.IProxy;
 import org.puremvc.java.multicore.patterns.proxy.Proxy;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ServerProxy extends Proxy implements IProxy, Runnable {
@@ -16,7 +17,6 @@ public class ServerProxy extends Proxy implements IProxy, Runnable {
     protected boolean isStopped = false;
     protected int serverPort;
     protected ServerSocket serverSocket;
-    protected Thread runningThread;
 
     public ServerProxy(ServerPreferencesVO prefs) {
         super(NAME, prefs);
@@ -51,9 +51,6 @@ public class ServerProxy extends Proxy implements IProxy, Runnable {
     public void run() {
         System.out.println("  ServerProxy: run()");
 
-        synchronized(this){
-            this.runningThread = Thread.currentThread();
-        }
         openServerSocket();
         System.out.println("  ..server running on port " + this.serverPort);
         while(! isStopped()){
