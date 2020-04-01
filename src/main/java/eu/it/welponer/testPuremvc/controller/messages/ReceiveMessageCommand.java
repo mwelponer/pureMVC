@@ -20,6 +20,7 @@ public class ReceiveMessageCommand extends SimpleCommand implements ICommand {
 
         messageProxy.addMessage(message);
 
+        getFacade().sendNotification(ApplicationFacade.SHOW_MAIN_WINDOW);
         sendNotification(ApplicationFacade.LOAD_MESSAGES);
     }
 }

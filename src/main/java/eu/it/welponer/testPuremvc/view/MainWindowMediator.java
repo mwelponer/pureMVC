@@ -112,13 +112,13 @@ public class MainWindowMediator extends Mediator implements IMediator {
 					//mainWindow.writeToOutputConsole(resultdate.toString());
 
 					if(messageVO.getJsonObject().has("coordX") && messageVO.getJsonObject().has("coordY")){
-						String coords =  resultdate.toString() + " - " + messageVO.getClientIP()
+						String coords =  resultdate.toString() + " " + messageVO.getClientIP()
 								+ " - received new coordinates: (" +
 								messageVO.getJsonObject().getFloat("coordX") + ", " +
 								messageVO.getJsonObject().getFloat("coordY") + ")";
 						mainWindow.writeToOutputConsole(coords);
 					}else{
-						mainWindow.writeToOutputConsole(resultdate.toString() + " - " + messageVO.getClientIP()
+						mainWindow.writeToOutputConsole(resultdate.toString() + " " + messageVO.getClientIP()
 								+ " - json object received '"
 								+ messageVO.getJsonObject().toString() + "'");
 					}

@@ -179,7 +179,7 @@ public class MainWindow extends JFrame {
 
                         //---- input_textArea ----
                         input_textArea.setText("{\"coordX\": 0.111,\"coordY\": 6.666}");
-                        input_textArea.setMargin(new Insets(2, 3, 0, 0));
+                        input_textArea.setMargin(new Insets(1, 3, 0, 0));
                         scrollPane2.setViewportView(input_textArea);
                     }
                     splitPane1.setTopComponent(scrollPane2);
@@ -190,6 +190,7 @@ public class MainWindow extends JFrame {
 
                         //---- response_textArea ----
                         response_textArea.setMargin(new Insets(2, 3, 0, 0));
+                        response_textArea.setEditable(false);
                         scrollPane1.setViewportView(response_textArea);
                     }
                     splitPane1.setBottomComponent(scrollPane1);
