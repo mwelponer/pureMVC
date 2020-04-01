@@ -20,5 +20,8 @@ public class StartServerCommand extends SimpleCommand implements ICommand {
 
         new Thread(serverProxy).start();
         sendNotification(ApplicationFacade.SERVER_STARTED, serverPreferencesProxy.getServerPrefs().getServerPort());
+
+        sendNotification(ApplicationFacade.UPDATE_STATUSBAR, "server listening on port "
+                + serverPreferencesProxy.getServerPrefs().getServerPort());
     }
 }

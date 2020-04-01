@@ -1,5 +1,6 @@
 package eu.it.welponer.testPuremvc.controller.server;
 
+import eu.it.welponer.testPuremvc.ApplicationFacade;
 import eu.it.welponer.testPuremvc.model.server.ServerPreferencesProxy;
 import eu.it.welponer.testPuremvc.model.server.ServerProxy;
 import org.puremvc.java.multicore.interfaces.ICommand;
@@ -31,5 +32,6 @@ public class ChangeServerPortCommand extends SimpleCommand implements ICommand {
 
         new Thread(serverProxy).start();
         //sendNotification(ApplicationFacade.SERVER_STARTED, port);
+        sendNotification(ApplicationFacade.UPDATE_STATUSBAR, "server listening on port " + port);
     }
 }

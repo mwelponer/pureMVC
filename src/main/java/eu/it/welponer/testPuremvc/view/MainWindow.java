@@ -12,6 +12,8 @@ import javax.swing.border.*;
 import eu.it.welponer.testPuremvc.ApplicationFacade;
 import eu.it.welponer.testPuremvc.model.messages.MessageVO;
 import eu.it.welponer.testPuremvc.model.client.RequestMethod;
+import lombok.Getter;
+import lombok.Setter;
 import org.json.JSONObject;
 
 /**
@@ -29,13 +31,13 @@ public class MainWindow extends JFrame {
 		this.mediator = m;
 	}
 
-    public void writeToOutputConsole(String output){
+    synchronized public void writeToOutputConsole(String output){
         System.out.println("  MainWindow: writeToOutputConsole()");
-	    response_textArea.append(output);
+        response_textArea.append(output);
         response_textArea.append("\r\n");
     }
 
-    public void clearOutputConsole(){
+    synchronized public void clearOutputConsole(){
         System.out.println("  MainWindow: clearOutputConsole()");
         response_textArea.setText("");
     }
@@ -55,6 +57,8 @@ public class MainWindow extends JFrame {
 	public void changeUrl(String url){
         url_textField.setText(url);
     }
+
+    public void changeStatusbar(String status){statusBar_label.setText(status);}
 
     public void changeMethod(int methodIndex){
 	    method_comboBox.setSelectedIndex(methodIndex);
@@ -106,6 +110,8 @@ public class MainWindow extends JFrame {
         url_textField = new JTextField();
         clear_Button = new JButton();
         send_Button = new JButton();
+        Status_panel = new JPanel();
+        statusBar_label = new JLabel();
 
         //======== this ========
         Container contentPane = getContentPane();
@@ -151,12 +157,13 @@ public class MainWindow extends JFrame {
 
         //======== dialogPane ========
         {
-            dialogPane.setBorder(new EmptyBorder(12, 12, 12, 12));
             dialogPane.setMinimumSize(new Dimension(265, 124));
+            dialogPane.setBorder(new EmptyBorder(6, 6, 0, 6));
             dialogPane.setLayout(new BorderLayout());
 
             //======== contentPanel ========
             {
+                contentPanel.setBorder(null);
                 contentPanel.setLayout(new BorderLayout());
 
                 //======== splitPane1 ========
@@ -189,7 +196,7 @@ public class MainWindow extends JFrame {
 
             //======== buttonBar ========
             {
-                buttonBar.setBorder(new EmptyBorder(12, 0, 0, 0));
+                buttonBar.setBorder(null);
                 buttonBar.setLayout(new GridLayout());
 
                 //======== panel1 ========
@@ -205,6 +212,7 @@ public class MainWindow extends JFrame {
                     method_comboBox.setPreferredSize(new Dimension(93, 33));
                     method_comboBox.setMinimumSize(new Dimension(99, 33));
                     method_comboBox.setMaximumSize(new Dimension(32767, 33));
+                    method_comboBox.setBorder(null);
                     panel1.add(method_comboBox);
 
                     //---- url_textField ----
@@ -236,6 +244,18 @@ public class MainWindow extends JFrame {
             dialogPane.add(buttonBar, BorderLayout.SOUTH);
         }
         contentPane.add(dialogPane, BorderLayout.CENTER);
+
+        //======== Status_panel ========
+        {
+            Status_panel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+            Status_panel.setLayout(new BoxLayout(Status_panel, BoxLayout.X_AXIS));
+
+            //---- statusBar_label ----
+            statusBar_label.setText("abcdefghilmnopqrstuvwz");
+            statusBar_label.setBorder(new EmptyBorder(2, 5, 3, 0));
+            Status_panel.add(statusBar_label);
+        }
+        contentPane.add(Status_panel, BorderLayout.SOUTH);
         pack();
         setLocationRelativeTo(getOwner());
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
@@ -263,5 +283,8 @@ public class MainWindow extends JFrame {
     private JTextField url_textField;
     private JButton clear_Button;
     private JButton send_Button;
-	// JFormDesigner - End of variables declaration  //GEN-END:variables
+    private JPanel Status_panel;
+    private JLabel statusBar_label;
+
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "6.0.6.4.204" Java: "11.0.6" encoding: "UTF-8"
+JFDML JFormDesigner: "6.0.6.4.204" Java: "11.0.4" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -7,10 +7,11 @@ new FormModel {
 			name: "this"
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 				name: "dialogPane"
-				"border": new javax.swing.border.EmptyBorder( 12, 12, 12, 12 )
 				"minimumSize": new java.awt.Dimension( 265, 124 )
+				"border": new javax.swing.border.EmptyBorder( 6, 6, 0, 6 )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 					name: "contentPanel"
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
 						name: "splitPane1"
 						"orientation": 0
@@ -42,7 +43,7 @@ new FormModel {
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) ) {
 					name: "buttonBar"
-					"border": new javax.swing.border.EmptyBorder( 12, 0, 0, 0 )
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
 						name: "panel1"
 						add( new FormComponent( "javax.swing.JComboBox" ) {
@@ -56,6 +57,7 @@ new FormModel {
 							"preferredSize": new java.awt.Dimension( 93, 33 )
 							"minimumSize": new java.awt.Dimension( 99, 33 )
 							"maximumSize": new java.awt.Dimension( 32767, 33 )
+							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						} )
 						add( new FormComponent( "javax.swing.JTextField" ) {
 							name: "url_textField"
@@ -87,6 +89,17 @@ new FormModel {
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "Center"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+				name: "Status_panel"
+				"border": new javax.swing.border.BevelBorder( 1, null, null, null, null )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "statusBar_label"
+					"text": "abcdefghilmnopqrstuvwz"
+					"border": new javax.swing.border.EmptyBorder( 2, 5, 3, 0 )
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "South"
 			} )
 			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
 				name: "menuBar"

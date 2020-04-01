@@ -28,6 +28,7 @@ public class ApplicationFacade extends Facade implements IFacade {
 	public static final String MESSAGE_SENT = "MessageSent";
 	public static final String RECEIVE_MESSAGE = "ReceiveMessage";
 	public static final String UPDATE_CONSOLE = "UpdateConsole";
+	public static final String UPDATE_STATUSBAR = "UpdateStatusBar";
 	public static final String LOAD_MESSAGES = "LoadMessages";
 	public static final String CLEAR_MESSAGES = "ClearMessages";
 	public static final String CHANGE_SERVER_PORT = "ChangeServerPort";

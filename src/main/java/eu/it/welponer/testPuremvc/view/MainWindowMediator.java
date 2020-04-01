@@ -6,6 +6,8 @@ import java.util.List;
 
 import eu.it.welponer.testPuremvc.model.messages.MessageProxy;
 import eu.it.welponer.testPuremvc.model.messages.MessageVO;
+import lombok.Getter;
+import lombok.Setter;
 import org.puremvc.java.multicore.interfaces.IMediator;
 import org.puremvc.java.multicore.interfaces.INotification;
 import org.puremvc.java.multicore.patterns.mediator.Mediator;
@@ -17,9 +19,13 @@ import javax.swing.*;
 
 public class MainWindowMediator extends Mediator implements IMediator {
 
-	private static final String NAME = "MainWindowMediator";
+	public static final String NAME = "MainWindowMediator";
 	private static MainWindow mainWindow = null;
 	private MessageProxy messageProxy = null;
+
+	@Setter
+	@Getter
+	private boolean lock;
 	
 	public MainWindowMediator() {
 		super(NAME, null);
@@ -52,6 +58,7 @@ public class MainWindowMediator extends Mediator implements IMediator {
 			ApplicationFacade.SEND_MESSAGE,
             ApplicationFacade.MESSAGE_SENT,
 			ApplicationFacade.UPDATE_CONSOLE,
+			ApplicationFacade.UPDATE_STATUSBAR,
 			ApplicationFacade.LOAD_MESSAGES,
 			ApplicationFacade.SERVER_STARTED,
 			ApplicationFacade.CHANGE_SERVER_PORT,
@@ -81,12 +88,25 @@ public class MainWindowMediator extends Mediator implements IMediator {
 				break;
 
 			case ApplicationFacade.MESSAGE_SENT:
-			case ApplicationFacade.UPDATE_CONSOLE:
-				mainWindow.clearOutputConsole();
+				while(lock)
+					System.out.println("busy");
 				mainWindow.writeToOutputConsole((String)notification.getBody());
 				break;
 
+			case ApplicationFacade.UPDATE_CONSOLE:
+				//lock = true;
+				//mainWindow.clearOutputConsole();
+				mainWindow.writeToOutputConsole((String)notification.getBody());
+				//lock = false;
+
+				break;
+
+			case ApplicationFacade.UPDATE_STATUSBAR:
+				mainWindow.changeStatusbar((String)notification.getBody());
+				break;
+
 			case ApplicationFacade.LOAD_MESSAGES:
+				//lock = true;
 				mainWindow.clearOutputConsole();
 				List messages = messageProxy.messages();
 
@@ -106,6 +126,7 @@ public class MainWindowMediator extends Mediator implements IMediator {
 								+ messageVO.getJsonObject().toString() + "'");
 					}
 				}
+				lock = false;
 
 				break;
 
