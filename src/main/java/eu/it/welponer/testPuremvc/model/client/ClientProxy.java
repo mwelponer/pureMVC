@@ -1,6 +1,7 @@
 package eu.it.welponer.testPuremvc.model.client;
 
 import eu.it.welponer.testPuremvc.model.messages.MessageVO;
+import eu.it.welponer.testPuremvc.view.MainWindowMediator;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -21,6 +22,7 @@ import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -65,11 +67,17 @@ public class ClientProxy extends Proxy implements IProxy {
 
         } catch (Exception e) {
             e.printStackTrace();
+            MainWindowMediator mainWindowMediator = (MainWindowMediator) getFacade().retrieveMediator(MainWindowMediator.NAME);
+            mainWindowMediator.setLock(false);
         } finally {
             if(connection != null) {
                 connection.disconnect();
             }
         }
+
+//        // unlock writing to console
+//        MainWindowMediator mainWindowMediator = (MainWindowMediator) getFacade().retrieveMediator(MainWindowMediator.NAME);
+//        mainWindowMediator.setLock(false);
 
         return response;
     }
@@ -80,6 +88,10 @@ public class ClientProxy extends Proxy implements IProxy {
 
         long time = System.currentTimeMillis();
         Date resultdate = new Date(time);
+
+//        String isoDatePattern = "yyyy-MM-dd'T'HH:mm:ssZ";
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+//        String dateString = simpleDateFormat.format(new Date());
 
         //Create connection
         URL url = new URL(targetURL);

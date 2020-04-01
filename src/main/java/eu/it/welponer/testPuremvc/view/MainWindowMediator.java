@@ -88,8 +88,14 @@ public class MainWindowMediator extends Mediator implements IMediator {
 				break;
 
 			case ApplicationFacade.MESSAGE_SENT:
-				while(lock)
-					System.out.println("busy");
+				while(lock){
+					//System.out.print(".");
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				mainWindow.writeToOutputConsole((String)notification.getBody());
 				break;
 
@@ -117,12 +123,14 @@ public class MainWindowMediator extends Mediator implements IMediator {
 					//mainWindow.writeToOutputConsole(resultdate.toString());
 
 					if(messageVO.getJsonObject().has("coordX") && messageVO.getJsonObject().has("coordY")){
-						String coords = resultdate.toString() + " - received new coordinates: (" +
+						String coords =  resultdate.toString() + " - " + messageVO.getClientIP()
+								+ " - received new coordinates: (" +
 								messageVO.getJsonObject().getFloat("coordX") + ", " +
 								messageVO.getJsonObject().getFloat("coordY") + ")";
 						mainWindow.writeToOutputConsole(coords);
 					}else{
-						mainWindow.writeToOutputConsole(resultdate.toString() + " - json object received '"
+						mainWindow.writeToOutputConsole(resultdate.toString() + " - " + messageVO.getClientIP()
+								+ " - json object received '"
 								+ messageVO.getJsonObject().toString() + "'");
 					}
 				}

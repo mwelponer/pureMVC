@@ -6,6 +6,7 @@ import org.puremvc.java.multicore.patterns.proxy.Proxy;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ServerProxy extends Proxy implements IProxy, Runnable {
@@ -69,7 +70,11 @@ public class ServerProxy extends Proxy implements IProxy, Runnable {
             }
             long time = System.currentTimeMillis();
             Date resultdate = new Date(time);
-            System.out.println("  ..message received: " + resultdate.toString());
+
+//            String isoDatePattern = "yyyy-MM-dd'T'HH:mm:ssZ";
+//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+//            String dateString = simpleDateFormat.format(new Date());
+            System.out.println("  ..message received: " + resultdate);
 
             new Thread(new MessageProcessor(clientSocket, "Multithreaded Server")
             ).start();

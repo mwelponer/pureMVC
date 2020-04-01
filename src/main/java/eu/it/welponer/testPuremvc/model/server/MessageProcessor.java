@@ -4,13 +4,13 @@ import eu.it.welponer.testPuremvc.ApplicationFacade;
 import eu.it.welponer.testPuremvc.model.messages.MessageVO;
 import org.json.JSONObject;
 import java.io.*;
-import java.net.Socket;
-import java.net.SocketException;
+import java.net.*;
 
 public class MessageProcessor implements Runnable {
 
     protected Socket clientSocket;
     protected String serverText;
+    private InetAddress clientIP;
 
     public MessageProcessor(Socket clientSocket, String serverText) {
         System.out.println("MessageProcessor()");
@@ -18,11 +18,35 @@ public class MessageProcessor implements Runnable {
         this.serverText = serverText;
     }
 
+    private InetAddress getClientIP(){
+        SocketAddress socketAddress = clientSocket.getRemoteSocketAddress();
+        InetAddress inetAddress;
+
+        if (socketAddress instanceof InetSocketAddress) {
+            inetAddress = ((InetSocketAddress)socketAddress).getAddress();
+            if (inetAddress instanceof Inet4Address)
+                System.out.println("  client IPv4: " + inetAddress);
+            else if (inetAddress instanceof Inet6Address)
+                System.out.println("  client IPv6: " + inetAddress);
+            else
+                System.err.println("  Not an IP address.");
+        } else {
+            System.err.println("  Not an internet protocol socket.");
+            return null;
+        }
+
+        return inetAddress;
+    }
+
     @Override
     public void run() {
         System.out.println("  MessageProcessor: run()");
 
         try {
+            // retrieve the IP of the client
+            clientIP = getClientIP();
+            if(clientIP == null){clientSocket.close(); return;}
+
             // input stream
             BufferedReader inBufferReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             StringBuilder stringBuffer = new StringBuilder();
@@ -129,6 +153,7 @@ public class MessageProcessor implements Runnable {
                 MessageVO message = new MessageVO();
                 message.setTimestamp(System.currentTimeMillis());
                 message.setJsonObject(jsonObject);
+                message.setClientIP(this.clientIP);
                 ApplicationFacade.getInstance().sendNotification(ApplicationFacade.RECEIVE_MESSAGE, message);
                 //ApplicationFacade.getInstance().sendNotification(ApplicationFacade.ADD_ITEM, new ItemVO("ciccio"));
                 //System.out.println(jsonObject);

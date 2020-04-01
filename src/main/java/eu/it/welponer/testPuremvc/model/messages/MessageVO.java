@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
 
+import java.net.InetAddress;
+
 public class MessageVO {
 
     @Getter @Setter
@@ -13,6 +15,8 @@ public class MessageVO {
     private String targetURL;
     @Getter @Setter
     private long timestamp;
+    @Getter @Setter
+    private InetAddress clientIP;
     @Getter @Setter
     private JSONObject jsonObject;
 //    private float coordX;
