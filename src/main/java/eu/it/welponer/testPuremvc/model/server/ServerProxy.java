@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.puremvc.java.multicore.interfaces.IProxy;
 import org.puremvc.java.multicore.patterns.proxy.Proxy;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -32,17 +33,22 @@ public class ServerProxy extends Proxy implements IProxy, Runnable {
         System.out.println("  ServerProxy: stop()");
         this.isStopped = true;
         try {
-            this.serverSocket.close();
+            if(this.serverSocket != null)
+                this.serverSocket.close();
         } catch (IOException e) {
             throw new RuntimeException(" ..error closing server", e);
         }
     }
 
-    private void openServerSocket() {
+    private boolean openServerSocket() {
         System.out.println("  ServerProxy: openServerSocket()");
         try {
             this.serverSocket = new ServerSocket(this.serverPort);
+            return true;
         } catch (IOException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Cannot open server socket on port " + this.serverPort,
+                    "InfoBox: " + e.getMessage(), JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException("  ..cannot open server socket on port " + serverPort, e);
         }
     }
@@ -51,33 +57,34 @@ public class ServerProxy extends Proxy implements IProxy, Runnable {
     public void run() {
         System.out.println("  ServerProxy: run()");
 
-        openServerSocket();
-        System.out.println("  ..server running on port " + this.serverPort);
-        while(! isStopped()){
-            //System.out.print(".");
-            Socket clientSocket;
-            try {
-                clientSocket = this.serverSocket.accept();
-            } catch (IOException e) {
-                if(isStopped()) {
-                    System.out.println("  ..server Stopped.");
-                    return;
+        if(openServerSocket()) {
+            System.out.println("  ..server running on port " + this.serverPort);
+            while (!isStopped()) {
+                //System.out.print(".");
+                Socket clientSocket;
+                try {
+                    clientSocket = this.serverSocket.accept();
+                } catch (IOException e) {
+                    if (isStopped()) {
+                        System.out.println("  ..server Stopped.");
+                        return;
+                    }
+                    throw new RuntimeException("  ..error accepting client connection", e);
                 }
-                throw new RuntimeException("  ..error accepting client connection", e);
-            }
-            long time = System.currentTimeMillis();
-            Date resultdate = new Date(time);
+                long time = System.currentTimeMillis();
+                Date resultdate = new Date(time);
 
 //            String isoDatePattern = "yyyy-MM-dd'T'HH:mm:ssZ";
 //            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
 //            String dateString = simpleDateFormat.format(new Date());
-            System.out.println("  ..message received: " + resultdate);
+                System.out.println("  ..message received: " + resultdate);
 
-            new Thread(new MessageProcessor(clientSocket, "Multithreaded Server")
-            ).start();
+                new Thread(new MessageProcessor(clientSocket, "Multithreaded Server")
+                ).start();
+            }
+
+            System.out.println("  ..server Stopped.");
         }
-
-        System.out.println("  ..server Stopped.");
     }
 
 //    public static void main(String[]args){
