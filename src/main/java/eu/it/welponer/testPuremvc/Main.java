@@ -5,14 +5,16 @@ import eu.it.welponer.testPuremvc.utils.OsUtils;
 import javax.swing.*;
 
 public class Main {
-	
+
+	public static int debugLevel = 1;
+
 	public void start() {
 		ApplicationFacade.getInstance().startup();
 	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("main()");
+		if(Main.debugLevel > 1)
+			System.out.println("main()");
 
 		if(OsUtils.isWindows()) {
 			try {

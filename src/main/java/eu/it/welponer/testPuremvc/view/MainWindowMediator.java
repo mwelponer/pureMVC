@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.util.Date;
 import java.util.List;
 
+import eu.it.welponer.testPuremvc.Main;
 import eu.it.welponer.testPuremvc.model.messages.MessageProxy;
 import eu.it.welponer.testPuremvc.model.messages.MessageVO;
 import eu.it.welponer.testPuremvc.model.server.ServerProxy;
@@ -122,6 +123,15 @@ public class MainWindowMediator extends Mediator implements IMediator {
 						System.out.println("  .." + coords);
 					}
 
+					if(messageVO.getJsonObject().has("debugLevel")){
+						int debugLevel = messageVO.getJsonObject().getInt("debugLevel");
+
+						if(Main.debugLevel > 0)
+							System.out.println("  ..setting debugLevel to: " + debugLevel);
+
+						sendNotification(ApplicationFacade.SET_DEBUG_LEVEL, debugLevel);
+					}
+
 					if(messageVO.getJsonObject().has("coordX") && messageVO.getJsonObject().has("coordY")){
 						String coords =  resultdate.toString() + " " + messageVO.getClientIP()
 								+ " - received new coordinates: (" +
@@ -149,7 +159,8 @@ public class MainWindowMediator extends Mediator implements IMediator {
     }
 
     public void changeServerPort() {
-		System.out.println("  MainWindowMediator: changeServerPort()");
+		if(Main.debugLevel > 1)
+			System.out.println("  MainWindowMediator: changeServerPort()");
 
 		String m = JOptionPane.showInputDialog(mainWindow, "Enter the Server port",
 				"Server Configuration", JOptionPane.QUESTION_MESSAGE);

@@ -7,4 +7,7 @@ public class ServerPreferencesVO {
 
     @Getter @Setter
     private int serverPort;
+
+    @Getter @Setter
+    private int debugLevel;
 }

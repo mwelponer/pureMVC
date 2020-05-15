@@ -32,6 +32,7 @@ public class ApplicationFacade extends Facade implements IFacade {
 	public static final String LOAD_MESSAGES = "load_messages";
 	public static final String CLEAR_MESSAGES = "clear_messages";
 	public static final String CHANGE_SERVER_PORT = "change_server_port";
+	public static final String SET_DEBUG_LEVEL = "set_debug_level";
 
 	public static final String SHOW_MAIN_WINDOW = "show_main_window";
 	public static final String SHUTDOWN = "shutdown";

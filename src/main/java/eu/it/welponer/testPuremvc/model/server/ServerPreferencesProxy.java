@@ -65,6 +65,7 @@ public class ServerPreferencesProxy extends Proxy implements IProxy {
     public void setPort(int port){
         serverPrefs.setServerPort(port);
     }
+    public void setDebugLevel(int level) { serverPrefs.setDebugLevel(level); }
 
     public void savePreferences(){
         System.out.println("  ServerPreferencesProxy: savePreferences()");
