@@ -18,7 +18,7 @@ public class ServerPreferencesProxy extends Proxy implements IProxy {
     public static final int INITIAL_SERVER_PORT = 9000;
 
     // Preference file
-    private File prefFile = new File(System.getProperty("user.home"), ".geobly_srv_prefs");
+    private File prefFile = new File(System.getProperty("user.home"), ".testPuremvc_srv_prefs");
 
     // Gson serializer
     private Gson gson;
