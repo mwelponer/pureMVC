@@ -9,6 +9,7 @@ import eu.it.welponer.testPuremvc.model.messages.MessageVO;
 import eu.it.welponer.testPuremvc.model.server.ServerProxy;
 import lombok.Getter;
 import lombok.Setter;
+import org.json.JSONArray;
 import org.puremvc.java.multicore.interfaces.IMediator;
 import org.puremvc.java.multicore.interfaces.INotification;
 import org.puremvc.java.multicore.patterns.mediator.Mediator;
@@ -110,6 +111,16 @@ public class MainWindowMediator extends Mediator implements IMediator {
 				for(MessageVO messageVO : tail){
 					Date resultdate = new Date(messageVO.getTimestamp());
 					//mainWindow.writeToOutputConsole(resultdate.toString());
+
+					if(messageVO.getJsonObject().has("coords")){
+						JSONArray coordsArray = messageVO.getJsonObject().getJSONArray("coords");
+						String coords =  resultdate.toString() + " " + messageVO.getClientIP()
+								+ " - received new coordinates: (" +
+								coordsArray.getFloat(0) + ", " +
+								coordsArray.getFloat(1) + ")";
+
+						System.out.println("  .." + coords);
+					}
 
 					if(messageVO.getJsonObject().has("coordX") && messageVO.getJsonObject().has("coordY")){
 						String coords =  resultdate.toString() + " " + messageVO.getClientIP()

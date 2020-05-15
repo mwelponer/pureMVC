@@ -178,7 +178,8 @@ public class MainWindow extends JFrame {
                         scrollPane2.setViewportBorder(null);
 
                         //---- input_textArea ----
-                        input_textArea.setText("{\"coordX\": 0.111,\"coordY\": 6.666}");
+                        //input_textArea.setText("{\"coordX\": 0.111,\"coordY\": 6.666, \"coords\":[333, 555], \"debugLevel\": 1}");
+                        input_textArea.setText("{\"coords\":[31117.4, 233488.7], \"debugLevel\": 1}");
                         input_textArea.setMargin(new Insets(1, 3, 0, 0));
                         scrollPane2.setViewportView(input_textArea);
                     }

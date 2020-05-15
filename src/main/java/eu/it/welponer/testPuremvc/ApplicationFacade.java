@@ -22,16 +22,16 @@ public class ApplicationFacade extends Facade implements IFacade {
 //	public static final String ITEM_ADDED = "ItemAdded";
 //	public static final String LOAD_ITEMS = "LoadItems";
 
-	public static final String START_SERVER = "StartServer";
-	public static final String SERVER_STARTED = "ServerStarted";
-	public static final String SEND_MESSAGE = "SendMessage";
-	public static final String MESSAGE_SENT = "MessageSent";
-	public static final String RECEIVE_MESSAGE = "ReceiveMessage";
-	public static final String UPDATE_CONSOLE = "UpdateConsole";
-	public static final String UPDATE_STATUSBAR = "UpdateStatusBar";
-	public static final String LOAD_MESSAGES = "LoadMessages";
-	public static final String CLEAR_MESSAGES = "ClearMessages";
-	public static final String CHANGE_SERVER_PORT = "ChangeServerPort";
+	public static final String START_SERVER = "start_server";
+	public static final String SERVER_STARTED = "server_started";
+	public static final String SEND_MESSAGE = "send_message";
+	public static final String MESSAGE_SENT = "message_sent";
+	public static final String RECEIVE_MESSAGE = "receive_message";
+	public static final String UPDATE_CONSOLE = "update_console";
+	public static final String UPDATE_STATUSBAR = "update_statusBar";
+	public static final String LOAD_MESSAGES = "load_messages";
+	public static final String CLEAR_MESSAGES = "clear_messages";
+	public static final String CHANGE_SERVER_PORT = "change_server_port";
 
 	public static final String SHOW_MAIN_WINDOW = "show_main_window";
 	public static final String SHUTDOWN = "shutdown";
