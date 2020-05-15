@@ -28,15 +28,6 @@ dependencies {
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.12'
 }
 
-//sourceSets {
-//    main {
-//        java{
-//            srcDirs = ['src/main/java']
-//            output.resourcesDir = 'build/classes/main'
-////            output.classesDir = 'build/classes/main'
-//        }
-//    }
-//}
 
 group = "eu.it.welponer"
 version = project.version
@@ -66,7 +57,7 @@ task distTestPuremvc(type: Jar, dependsOn: classes) {
         File bat = new File(destinationDir, "testPuremvc-${project.version}.bat")
         destinationDir.mkdirs()
 
-        bat.write('java -jar -Xmx4G -Xms4G ' + archiveName /*+ ' > output.log 2>&1'*/)
+        bat.write('java -jar -Xmx4G -Xms4G ' + archiveName + ' > %USERNAME%_output.log 2>&1')
 
         // Create zip
         task(ziptestPuremvc, type: Zip){
