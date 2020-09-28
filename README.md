@@ -11,8 +11,8 @@ via TCP to other PCs within the same network.
 
 ### Using the tool as a server
 The very first time it runs the server listens on port 9000. You can change it
-though using menu Edit > Change server port.Inside the second textbox (the console)
-you will see incoming json messages.
+though using menu Edit > Change server port.
+Inside the second textbox (the console) you will see incoming json messages.
 
 You can use free software like [Postman](https://www.postman.com/downloads/)to
 send the message to the computer running the tool. After downloading Postman
@@ -21,6 +21,7 @@ just use the following settings inside Postman
 - create a request: select POST, request url: theIpOfThePcRunningTestPuremvc:9000
 - in the body tab select raw and write the json message
 e.g. {"coordX": 0.111,"coordY": 6.666}
+e.g. {"coords":[31117.4, 233488.7], "debugLevel": 0}
 - in the last body tab Text change it to JSON
 - send
 
@@ -31,8 +32,8 @@ Let's say you are PCa (192.168.1.1) and you want to send a json message to
 PCb (192.168.2.2) that is already running the tool on port 9000.
 
 - Edit the first textbox with the json message you want to send, by default is 
-{"coordX": 0.111,"coordY": 6.666} but you can type whatever json file you want.
-If the json contains the objects 'coordX' and 'coordY', the server will
+{"coords":[31117.4, 233488.7], "debugLevel": 0} but you can type whatever json file you want.
+If the json contains both the objects 'coordX' and 'coordY' or the object 'coords', the server will
 recognise them as coordinates.
 - In the bottom part of the tool, select POST or GET, insert the destination
 (in our case http://192.168.2.2:9000) and hit Send- In the console, you will see

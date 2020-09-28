@@ -7,6 +7,7 @@ import java.util.List;
 import eu.it.welponer.testPuremvc.Main;
 import eu.it.welponer.testPuremvc.model.messages.MessageProxy;
 import eu.it.welponer.testPuremvc.model.messages.MessageVO;
+import eu.it.welponer.testPuremvc.model.server.ServerPreferencesProxy;
 import eu.it.welponer.testPuremvc.model.server.ServerProxy;
 import lombok.Getter;
 import lombok.Setter;
@@ -162,8 +163,11 @@ public class MainWindowMediator extends Mediator implements IMediator {
 		if(Main.debugLevel > 1)
 			System.out.println("  MainWindowMediator: changeServerPort()");
 
-		String m = JOptionPane.showInputDialog(mainWindow, "Enter the Server port",
-				"Server Configuration", JOptionPane.QUESTION_MESSAGE);
+		ServerPreferencesProxy preferencesProxy = (ServerPreferencesProxy) getFacade().retrieveProxy(ServerPreferencesProxy.NAME);
+
+		String m = (String)JOptionPane.showInputDialog(mainWindow, "Server port",
+				"Server Configuration", JOptionPane.QUESTION_MESSAGE, null,
+				null, preferencesProxy.getServerPrefs().getServerPort());
 
 		int port = -1;
 		if (m == null) { // cancel is pressed
