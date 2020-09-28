@@ -18,6 +18,10 @@ dependencies {
     
     // https://mvnrepository.com/artifact/org.puremvc/PureMVC_Java_MultiCore
 	compile group: 'org.puremvc', name: 'PureMVC_Java_MultiCore', version: '1.0.7'
+    // https://mvnrepository.com/artifact/org.puremvc/PureMVC_Java_MultiCore
+    //compile group: 'org.puremvc', name: 'PureMVC_Java_MultiCore', version: '2.0'
+
+
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
 	compile group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
