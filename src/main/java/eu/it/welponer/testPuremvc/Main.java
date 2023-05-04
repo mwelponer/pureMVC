@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class Main {
 
-	public static int debugLevel = 1;
+	public static int debugLevel = 2;
 
 	public void start() {
 		ApplicationFacade.getInstance().startup();
