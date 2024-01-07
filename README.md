@@ -1,8 +1,8 @@
-Puremvc Framework RESTc/s
+Puremvc http REST API 
 ==================
 
 ## What is it
-The tool acts as a server listening for incoming (http REST) TCP messages on a
+The tool acts as a server listening for incoming http REST API messages on a
 specific port, but it can also work as a client to send json messages
 via TCP to other PCs connected to the network.
 Copyright (C) 2020  Michele Welponer, mwelponer@gmail.com (Fondazione Bruno Kessler)
@@ -14,7 +14,7 @@ under certain conditions;
 
 ### Using the tool as a server
 The very first time it runs the server listens on port 9000. You can change it
- using menu Edit > Change server port.
+using menu Edit > Change server port.
 Inside the second textbox (the console) you will see the incoming json messages.
 
 You can use a free software like [Postman](https://www.postman.com/downloads/) to
